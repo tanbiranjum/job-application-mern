@@ -29,7 +29,7 @@ exports.register = async (req, res) => {
     const user = new employee({ E_Name, E_Email, Password: hashedPassword })
     await user.save()
 
-    res.status(201).send({ message: "Account created successfully", user })
+    res.status(201).send({ message: "Account createdd successfully", user })
 
 
   } catch (error) {
