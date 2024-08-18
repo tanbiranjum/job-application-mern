@@ -2,6 +2,7 @@
 const cors = require('cors');
 const dotenv = require('dotenv');
 const express = require('express');
+const employeeRoute=require('./Routes/employeeRoute')
 
 const morgan = require('morgan');
 
@@ -29,7 +30,8 @@ app.get('/',(req,res)=>{
 })
 
 
-
+//routes
+app.use('/',employeeRoute)
 
 
 //run server
