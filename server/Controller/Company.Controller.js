@@ -3,6 +3,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 
+// <!-------------    Auth Controllers     -----------------!>
+
 const register = async (req, res, next) => {
     const { C_Name, C_Email, Password } = req.body;
 
@@ -53,6 +55,60 @@ const login = async (req, res, next) => {
     }
 
 };
+
+const google = async (req, res, next) => {
+    try {
+        const company = await Company.findOne({ C_Email: req.body.C_Email });
+        if (company) {
+            const token = jwt.sign({ id: company._id }, process.env.JWT_SECRET);
+            const { Password: hashedPassword, ...rest } = company._doc;
+            const expiryDate = new Date(Date.now() + 3600000 * 24 * 7);
+            res
+                .cookie('access_token', token, {
+                    httpOnly: true,
+                    expires: expiryDate,
+                })
+                .status(200)
+                .json(rest);
+        } else {
+            const generatedPassword =
+                Math.random().toString(36).slice(-8) +
+                Math.random().toString(36).slice(-8);
+
+            const hashedPassword = bcrypt.hashSync(generatedPassword, 10);
+
+            const newCompany = new Company({
+                C_Name:
+                    req.body.C_Name.split(' ').join('').toLowerCase() +
+                    Math.random().toString(36).slice(-8),
+                    C_Email: req.body.C_Email,
+                Password: hashedPassword,
+            });
+            await newCompany.save();
+            const token = jwt.sign({ id: newCompany._id }, process.env.JWT_SECRET);
+            const { Password: hashedPassword2, ...rest } = newUser._doc;
+            const expiryDate = new Date(Date.now() + 3600000 * 24 * 7);
+            res
+                .cookie('access_token', token, {
+                    httpOnly: true,
+                    expires: expiryDate,
+                })
+                .status(200)
+                .json(rest);
+        }
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+const logout = async (req, res) => {
+
+    res.clearCookie('access_token').status(200).json("Signed Out!")
+
+}
+
+// <!-------------    CRUD Controllers     -----------------!>
 
 const getAllCompanies = async (req, res) => {
     try {
@@ -115,4 +171,4 @@ const deleteCompany = async (req, res) => {
 };
 
 
-module.exports = { register, login, getAllCompanies, getCompanyById, updateCompany, deleteCompany };
+module.exports = { register, login, google, logout, getAllCompanies, getCompanyById, updateCompany, deleteCompany };
