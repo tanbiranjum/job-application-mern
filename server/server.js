@@ -30,13 +30,11 @@ app.get('/', (req, res) => {
 })
 
 
-<<<<<<< HEAD
+
 //routes
 app.use('/',employeeRoute)
 
 
-=======
->>>>>>> b6d46d43bae4218379d3605df58e5c1a3443b59a
 //run server
 const PORT = process.env.PORT || 5500;
 app.listen(PORT, () => console.log("server is connected"))
