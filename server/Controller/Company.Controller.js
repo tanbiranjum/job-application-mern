@@ -1,6 +1,8 @@
 const Company = require("../Model/Company.Model.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { errorHandler } = require("../Middleware/errorHandler.js")
+
 
 
 const register = async (req, res, next) => {
