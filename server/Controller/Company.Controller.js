@@ -103,12 +103,15 @@ const updateCompany = async (req, res) => {
 
         company.C_Name = req.body.C_Name || company.C_Name;
         company.C_Email = req.body.C_Email || company.C_Email;
-        company.Password = req.body.Password || company.Password;
         company.Address = req.body.Address || company.Address;
         company.DOB = req.body.DOB || company.DOB;
         company.Phone_number = req.body.Phone_number || company.Phone_number;
         company.description = req.body.description || company.description;
         company.Category = req.body.Category || company.Category;
+
+        if (req.body.Password) {
+            company.Password = await bcrypt.hash(req.body.Password, 10);
+        }
 
 
         const updatedCompany = await company.save();
@@ -148,8 +151,6 @@ const getCompaniesByCategory = async (req, res) => {
 
         const companies = await Company.find({ Category });
 
-        console.log("Found Companies:", companies);
-
         if (companies.length === 0) {
             return res.status(404).json({ message: `No companies found for category: ${Category}` });
         }
@@ -161,5 +162,37 @@ const getCompaniesByCategory = async (req, res) => {
     }
 };
 
+const searchCompanies = async (req, res) => {
+    try {
+        const { keyword } = req.query;
 
-module.exports = { register, login, logout, getAllCompanies, getCompanyById, updateCompany, deleteCompany, getCompaniesByCategory };
+        if (!keyword) {
+            return res.status(400).json({ message: 'Keyword is required' });
+        }
+
+        // Creating a regular expression for case-insensitive ("i") partial matching
+        const regex = new RegExp(keyword, 'i');
+
+        // Querying the database with the regex for multiple fields
+        const companies = await Company.find({
+            $or: [
+                { C_Name: { $regex: regex } },
+                { C_Email: { $regex: regex } },
+                { Category: { $regex: regex } },
+                { Address: { $regex: regex } },
+            ]
+        });
+
+        if (companies.length === 0) {
+            return res.status(404).json({ message: `No companies found for keyword: ${keyword}` });
+        }
+
+        res.json(companies);
+    } catch (err) {
+        console.error('Error in searching companies:', err);
+        res.status(500).json({ message: err.message });
+    }
+};
+
+
+module.exports = { register, login, logout, getAllCompanies, getCompanyById, updateCompany, deleteCompany, getCompaniesByCategory, searchCompanies };
