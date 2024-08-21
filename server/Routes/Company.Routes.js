@@ -1,5 +1,5 @@
 const express = require('express');
-const { register, login, logout, getAllCompanies, getCompanyById, updateCompany, deleteCompany, getCompaniesByCategory } = require("../Controller/Company.Controller.js");
+const { register, login, logout, getAllCompanies, getCompanyById, updateCompany, deleteCompany, getCompaniesByCategory, searchCompanies } = require("../Controller/Company.Controller.js");
 const { verifyToken } = require("../Middleware/verifyCompany.js")
 
 const router = express.Router();
@@ -11,6 +11,8 @@ router.get("/logout", logout)
 
 //Queries
 router.get('/companies/filter', getCompaniesByCategory);
+router.get('/companies/search', searchCompanies);
+
 
 
 // CRUD routes
