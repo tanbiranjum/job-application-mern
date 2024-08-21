@@ -1,20 +1,18 @@
 const mongoose = require("mongoose");
-
+const categories = require('../Others/categories.js');
 
 const companySchema = new mongoose.Schema({
-
     C_Name: {
         type: String,
-        require: [true, "Company name must require"]
+        required: [true, "Company name must require"]
     },
     C_Email: {
         type: String,
-        require: [true, "Company email must require"]
+        required: [true, "Company email must require"]
     },
-    Password:
-    {
+    Password: {
         type: String,
-        require: [true, "Password must require"]
+        required: [true, "Password must require"]
     },
     DOB: {
         type: Date
@@ -28,8 +26,11 @@ const companySchema = new mongoose.Schema({
     description: {
         type: String
     },
-
-
-}, { timestamps: true })
+    Category: {
+        type: String,
+        enum: categories,
+        required: [true, "Category is required"]
+    }
+}, { timestamps: true });
 
 module.exports = mongoose.model('Company', companySchema);
