@@ -8,12 +8,12 @@ const { errorHandler } = require("../Middleware/errorHandler.js")
 // <!-------------    Auth Controllers     -----------------!>
 
 const register = async (req, res, next) => {
-    const { C_Name, C_Email, Password } = req.body;
+    const { C_Name, C_Email, Password, Category } = req.body;
 
     try {
         const hashedPassword = await bcrypt.hash(Password, 10);
 
-        const newCompany = new Company({ C_Name, C_Email, Password: hashedPassword });
+        const newCompany = new Company({ C_Name, C_Email, Password: hashedPassword, Category });
 
         await newCompany.save();
 
@@ -68,8 +68,14 @@ const logout = async (req, res) => {
 // <!-------------    CRUD Controllers     -----------------!>
 
 const getAllCompanies = async (req, res) => {
+
     try {
         const companies = await Company.find();
+
+        if (companies.length == 0) {
+            return res.status(404).json({ message: 'No companies found!!' });
+        }
+
         res.json(companies);
     } catch (err) {
         console.error('Error in finding all companies:', err);
@@ -102,6 +108,7 @@ const updateCompany = async (req, res) => {
         company.DOB = req.body.DOB || company.DOB;
         company.Phone_number = req.body.Phone_number || company.Phone_number;
         company.description = req.body.description || company.description;
+        company.Category = req.body.Category || company.Category;
 
 
         const updatedCompany = await company.save();
@@ -128,4 +135,31 @@ const deleteCompany = async (req, res) => {
 };
 
 
-module.exports = { register, login, google, logout, getAllCompanies, getCompanyById, updateCompany, deleteCompany };
+//<--------------------  Query and Filtering Controllers --------------------->
+
+const getCompaniesByCategory = async (req, res) => {
+    try {
+
+        const { Category } = req.query;
+
+        if (!Category) {
+            return res.status(400).json({ message: 'Category is required' });
+        }
+
+        const companies = await Company.find({ Category });
+
+        console.log("Found Companies:", companies);
+
+        if (companies.length === 0) {
+            return res.status(404).json({ message: `No companies found for category: ${Category}` });
+        }
+
+        res.json(companies);
+    } catch (err) {
+        console.error('Error in finding companies by category:', err);
+        res.status(500).json({ message: err.message });
+    }
+};
+
+
+module.exports = { register, login, logout, getAllCompanies, getCompanyById, updateCompany, deleteCompany, getCompaniesByCategory };

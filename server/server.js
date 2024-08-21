@@ -1,7 +1,8 @@
 const cors = require('cors');
 const dotenv = require('dotenv');
 const express = require('express');
-const employeeRoute=require('./Routes/employeeRoute')
+const cookieParser = require("cookie-parser");
+const employeeRoute = require('./Routes/employeeRoute')
 
 const morgan = require('morgan');
 
@@ -19,6 +20,7 @@ const app = express();
 
 //middleware
 app.use(morgan('dev'))
+app.use(cookieParser())
 app.use(express.json())
 
 app.use(cors())
@@ -32,7 +34,7 @@ app.get('/', (req, res) => {
 
 
 //routes
-app.use('/',employeeRoute)
+app.use('/', employeeRoute)
 
 
 //run server
