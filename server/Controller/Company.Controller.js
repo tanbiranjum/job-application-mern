@@ -182,6 +182,7 @@ const searchCompanies = async (req, res) => {
                 { Address: { $regex: regex } },
             ]
         });
+            
 
         if (companies.length === 0) {
             return res.status(404).json({ message: `No companies found for keyword: ${keyword}` });
