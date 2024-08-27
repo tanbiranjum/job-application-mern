@@ -41,6 +41,9 @@ const empolyeeSchema = new mongoose.Schema({
     Education: {
         type: [String]
     },
+    Photo:{
+        type:String,
+    }
 
 }, { timestamps: true });
 
