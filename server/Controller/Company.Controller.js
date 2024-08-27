@@ -152,7 +152,7 @@ const getCompaniesByCategory = async (req, res) => {
         const companies = await Company.find({ Category });
 
         if (companies.length === 0) {
-            return res.status(404).json({ message: `No companies found for category: ${Category}` });
+            return res.status(200).json([]);
         }
 
         res.json(companies);

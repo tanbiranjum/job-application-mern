@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Pagination from "../components/Pagination";
 import Search from "../components/Search";
-import categories from "../utils/categories";
+import Filter from "../components/Filter";
 
 const Companies = () => {
   const navigate = useNavigate();
@@ -14,6 +14,8 @@ const Companies = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [filteredCompanies, setFilteredCompanies] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
+  const [isFiltering, setIsFiltering] = useState(false);
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -22,6 +24,7 @@ const Companies = () => {
           "http://localhost:5500/api/company/companies"
         );
         setCompanies(response.data);
+        console.log("Fetched Companies: ", response.data);
       } catch (error) {
         console.error("Error fetching companies:", error);
       }
@@ -31,30 +34,42 @@ const Companies = () => {
   }, []);
 
   const handleSearch = async (keyword) => {
+    setSelectedCategory("");
+    setIsFiltering(false);
+
     if (keyword.trim() === "") {
       setSearchResults([]);
+      setIsSearching(false);
       setCurrentPage(1);
       navigate("/companies");
       return;
     }
+
     try {
       const response = await axios.get(
         `http://localhost:5500/api/company/companies/search?keyword=${keyword}`
       );
       setSearchResults(response.data);
-      setFilteredCompanies([]);
+      setIsSearching(true);
       setCurrentPage(1);
     } catch (error) {
-      console.error("Error searching companies:", error);
+      if (error.response && error.response.status === 404) {
+        setSearchResults([]);
+        setIsSearching(true);
+      } else {
+        console.error("Error searching companies:", error);
+      }
     }
   };
 
   const handleCategoryChange = async (e) => {
     const category = e.target.value;
     setSelectedCategory(category);
+    setIsSearching(false);
+
     if (category === "") {
       setFilteredCompanies([]);
-      setSearchResults([]);
+      setIsFiltering(false);
       setCurrentPage(1);
       navigate("/companies");
       return;
@@ -65,33 +80,38 @@ const Companies = () => {
         `http://localhost:5500/api/company/companies/filter?Category=${category}`
       );
 
-      console.log(response);
-      const filteredCompanies = response.data;
-      console.log(filteredCompanies);
-      setFilteredCompanies(filteredCompanies);
-      setSearchResults([]);
+      if (response.data.length === 0) {
+        console.log(`No companies found for the "${category}" category.`);
+        setFilteredCompanies([]);
+        setIsFiltering(true);
+      } else {
+        console.log("Filtered Companies: ", response.data);
+        setFilteredCompanies(response.data);
+        setIsFiltering(true);
+      }
+
       setCurrentPage(1);
     } catch (error) {
       console.error("Error filtering companies by category:", error);
+      setFilteredCompanies([]);
+      setIsFiltering(true);
     }
   };
 
   const indexOfLastCompany = currentPage * companiesPerPage;
   const indexOfFirstCompany = indexOfLastCompany - companiesPerPage;
 
-  const currentCompanies =
-    searchResults.length > 0
-      ? searchResults.slice(indexOfFirstCompany, indexOfLastCompany)
-      : filteredCompanies.length > 0
-      ? filteredCompanies.slice(indexOfFirstCompany, indexOfLastCompany)
-      : companies.slice(indexOfFirstCompany, indexOfLastCompany);
+  const currentCompanies = isSearching
+    ? searchResults.slice(indexOfFirstCompany, indexOfLastCompany)
+    : isFiltering
+    ? filteredCompanies.slice(indexOfFirstCompany, indexOfLastCompany)
+    : companies.slice(indexOfFirstCompany, indexOfLastCompany);
 
-  const totalCompanies =
-    searchResults.length > 0
-      ? searchResults.length
-      : filteredCompanies.length > 0
-      ? filteredCompanies.length
-      : companies.length;
+  const totalCompanies = isSearching
+    ? searchResults.length
+    : isFiltering
+    ? filteredCompanies.length
+    : companies.length;
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -101,51 +121,46 @@ const Companies = () => {
         <h2 className="text-lg font-bold items-center text-center p-2">
           Browse companies
         </h2>
-        <select
-          className="bg-[#fefaee] border border-gray-300 rounded-md shadow-sm p-1 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-          value={selectedCategory}
-          onChange={handleCategoryChange}
-        >
-          <option value="">All Categories</option>
-          {categories.map((category) => (
-            <option key={category} value={category}>
-              {category}
-            </option>
-          ))}
-        </select>
+        <Filter
+          selectedCategory={selectedCategory}
+          onCategoryChange={handleCategoryChange}
+        />
         <Search onSearch={handleSearch} />
       </div>
 
-      <div className="mx-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
-        {currentCompanies.length > 0 ? (
-          currentCompanies.map((company) => (
-            <div
-              key={company.id}
-              className="bg-[#fefaee] rounded-lg border-2 shadow-md p-2 hover:shadow-lg hover:scale-105 transition duration-300"
-            >
-              <h3 className="text-sm font-semibold mb-1">{company.C_Name}</h3>
-              <p className="text-sm text-gray-600 mb-1">
-                {company.description
-                  ? company.description.slice(0, 30) + "..."
-                  : "No description available"}
-              </p>
-              <p className="text-sm text-gray-600 mb-1">
-                Address: {company.Address}
-              </p>
-              <p className="text-sm text-gray-600 mb-1">
-                Category: {company.Category}
-              </p>
-            </div>
-          ))
-        ) : (
-          <div className="col-span-full text-center text-gray-500">
-            {selectedCategory
-              ? `No companies found by the "${selectedCategory}" category.`
+      <div className="mx-4 grid grid-cols-1 min-h-[50vh] items-center justify-items-center">
+        {currentCompanies.length === 0 ? (
+          <div className="text-center text-gray-500 col-span-1">
+            {isFiltering && selectedCategory
+              ? `No companies found for the "${selectedCategory}" category.`
+              : isSearching
+              ? "No such companies match your input."
               : "No companies found."}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 w-full">
+            {currentCompanies.map((company) => (
+              <div
+                key={company.id}
+                className="bg-[#fefaee] rounded-lg border-2 shadow-md p-2 hover:shadow-lg hover:scale-105 transition duration-300"
+              >
+                <h3 className="text-sm font-semibold mb-1">{company.C_Name}</h3>
+                <p className="text-sm text-gray-600 mb-1">
+                  {company.description
+                    ? company.description.slice(0, 30) + "..."
+                    : "No description available"}
+                </p>
+                <p className="text-sm text-gray-600 mb-1">
+                  Address: {company.Address}
+                </p>
+                <p className="text-sm text-gray-600 mb-1">
+                  Category: {company.Category}
+                </p>
+              </div>
+            ))}
           </div>
         )}
       </div>
-
       <Pagination
         companiesPerPage={companiesPerPage}
         totalCompanies={totalCompanies}
