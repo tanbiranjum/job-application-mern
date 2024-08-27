@@ -15,7 +15,7 @@ const Search = ({ onSearch }) => {
   };
 
   return (
-    <div className="absolute top-6 right-6 flex items-center">
+    <div className="flex items-center">
       <input
         type="text"
         placeholder="Search companies..."
