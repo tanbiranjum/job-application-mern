@@ -25,7 +25,7 @@ const Pagination = ({
   }
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 shadow-md p-4">
+    <nav className="fixed bottom-0 left-0 right-0 shadow-md py-2 px-4">
       <ul className="flex justify-center items-center space-x-2">
         <li>
           <button
