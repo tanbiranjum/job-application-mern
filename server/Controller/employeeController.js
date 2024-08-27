@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const employee = require('../Model/Employee.Model')
+const path = require('path');
+
 
 
 //Registration
@@ -74,3 +76,117 @@ exports.login = async (req, res) => {
   }
 
 }
+
+
+// Update
+exports.update = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!id) {
+      return res.status(400).send({ message: "Employee ID is required" });
+    }
+    
+    const { E_Name, E_Email, Password, Gender, DOB, Address, Phone_number, Bio, Skills, Experience, Education } = req.body
+
+    // Handle password separately
+    let hashedPassword;
+    if (Password) {
+      if (Password.length < 6) {
+        return res.status(400).send({ message: "Password should be at least 6 characters long" });
+      }
+      hashedPassword = await bcrypt.hash(Password, 10);
+    }
+
+    // Handle file upload
+    let photoPath = "";
+    if (req.file) {
+      photoPath = path.join('uploads', req.file.filename);
+    }
+
+
+    const updatedEmployee = await employee.findByIdAndUpdate(id, { E_Name, E_Email, Gender, DOB, Address, Phone_number, Bio, Skills, Experience, Education, Photo:photoPath })
+
+    // Update password only if provided
+    if (hashedPassword) {
+      Password = hashedPassword;
+    }
+
+
+    res.status(200).json(updatedEmployee)
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Error updating employee" });
+  }
+};
+
+// Delete
+exports.deleteEmp = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).send({ message: "Employee ID is required" });
+    }
+
+
+    const deletedEmployee = await employee.findByIdAndDelete(id);
+
+    if (!deletedEmployee) {
+      return res.status(404).send({ message: "Employee not found" });
+    }
+
+    res.status(200).send({ message: "Employee deleted successfully", employee: deletedEmployee });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Error deleting employee" });
+  }
+};
+
+
+// Get All Employees
+exports.getAllEmployee = async (req, res) => {
+  try {
+
+    const employees = await employee.find();
+
+
+    if (employees.length === 0) {
+      return res.status(404).send({ message: "No employees found" });
+    }
+
+
+    res.status(200).send({ employees });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Error retrieving employees" });
+  }
+};
+
+
+//employee by ID
+exports.getEmployeeById = async (req, res) => {
+  try {
+
+
+    const EmployeeDoc = await employee.findById(req.params.id);
+
+    if (!EmployeeDoc) {
+      return res.status(404).send({ message: "Employee not found" });
+    }
+
+      // Construct the full URL to the photo
+      if (EmployeeDoc.Photo) {
+        EmployeeDoc.Photo = `http://localhost:5500/uploads/${path.basename(EmployeeDoc.Photo)}`;
+    }
+
+    res.json(EmployeeDoc)
+
+  } catch (error) {
+
+    console.error(error);
+    res.status(500).send({ message: "Error retrieving employee", error });
+  }
+};
