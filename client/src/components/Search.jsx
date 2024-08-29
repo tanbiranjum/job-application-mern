@@ -19,7 +19,7 @@ const Search = ({ onSearch }) => {
       <input
         type="text"
         placeholder="Search companies..."
-        className="bg-[#fefaee] mr-1 p-1 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+        className="bg-[#fffcf2] mr-1 p-1 text-sm border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
         onChange={(e) => setKeyword(e.target.value)}
         value={keyword}
         onKeyDown={(e) => {

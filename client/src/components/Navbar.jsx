@@ -1,10 +1,31 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
-import { Link } from "react-router-dom";
+/* eslint-disable react/prop-types */
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({
+  isAuthenticated,
+  setIsAuthenticated,
+  isCompany,
+  setIsCompany,
+  userName,
+  setUserName,
+  dropdownOpen,
+  toggleDropdown,
+  closeDropdown,
+}) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setIsCompany(false);
+    setUserName("");
+    closeDropdown();
+    navigate("/");
+  };
+
   return (
-    <div className="bg-gradient-to-r from-rose-300 to-rose-300 via-red-300">
+    <div className="bg-gradient-to-r from-rose-300 to-rose-300 via-red-300 relative  z-50">
       <div className="flex justify-between items-center mx-auto max-w-6xl px-8 py-4">
         <Link to="/">
           <h1 className="font-bold">Job Seeker</h1>
@@ -12,17 +33,62 @@ const Navbar = () => {
 
         <ul className="flex gap-4">
           <Link to="/">
-            <li>Home</li>{" "}
+            <li>Home</li>
           </Link>
-          <Link to="/jobs">
-            <li>Jobs</li>{" "}
-          </Link>
-          <Link to="/companies">
-            <li>Companies</li>{" "}
-          </Link>
-          <Link to="/employee">
-            <li>User</li>
-          </Link>
+          {isAuthenticated && (
+            <Link to="/companies">
+              <li>Companies</li>
+            </Link>
+          )}
+
+          {!isAuthenticated ? (
+            <div className="relative">
+              <button className="focus:outline-none" onClick={toggleDropdown}>
+                Login
+              </button>
+              {dropdownOpen && (
+                <ul className="absolute bg-[#fffcf2] text-sm shadow-md rounded-md py-2 transition-transform transform translate-y-2 origin-top-right z-50">
+                  <li
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => navigate("/login")}
+                  >
+                    Login as Employee
+                  </li>
+                  <li
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => navigate("/company-login")}
+                  >
+                    Login as Company
+                  </li>
+                </ul>
+              )}
+            </div>
+          ) : (
+            <div className="relative">
+              <button
+                className="font-bold focus:outline-none"
+                onClick={toggleDropdown}
+              >
+                {userName || (isCompany ? "Company Name" : "User")}
+              </button>
+              {dropdownOpen && (
+                <ul className="absolute bg-white shadow-md mt-2 rounded-md py-2 transition-transform transform translate-y-2 origin-top-right">
+                  <li
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => navigate("/profile")}
+                  >
+                    Profile
+                  </li>
+                  <li
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </li>
+                </ul>
+              )}
+            </div>
+          )}
         </ul>
       </div>
     </div>
