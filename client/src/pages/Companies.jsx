@@ -142,7 +142,7 @@ const Companies = () => {
             {currentCompanies.map((company) => (
               <div
                 key={company.id}
-                className="bg-[#fefaee] rounded-lg border-2 shadow-md p-2 hover:shadow-lg hover:scale-105 transition duration-300"
+                className="bg-[#fffcf2] rounded-lg border-2 shadow-md p-2 hover:shadow-lg hover:scale-105 transition duration-300"
               >
                 <h3 className="text-sm font-semibold mb-1">{company.C_Name}</h3>
                 <p className="text-sm text-gray-600 mb-1">

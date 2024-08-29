@@ -6,7 +6,7 @@ import categories from "../utils/categories";
 const Filter = ({ selectedCategory, onCategoryChange }) => {
   return (
     <select
-      className="bg-[#fefaee] border border-gray-300 rounded-md shadow-sm p-1 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+      className="bg-[#fffcf2] border border-gray-300 rounded-md shadow-sm p-1 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
       value={selectedCategory}
       onChange={onCategoryChange}
     >
