@@ -24,6 +24,13 @@ const Navbar = ({
     navigate("/");
   };
 
+  const handleProfileClick = () => {
+      navigate(`/profile`);
+    closeDropdown();
+  };
+  
+  
+
   return (
     <div className="bg-gradient-to-r from-rose-300 to-rose-300 via-red-300 relative  z-50">
       <div className="flex justify-between items-center mx-auto max-w-6xl px-8 py-4">
@@ -75,8 +82,7 @@ const Navbar = ({
                 <ul className="absolute bg-white shadow-md mt-2 rounded-md py-2 transition-transform transform translate-y-2 origin-top-right">
                   <li
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => navigate("/profile")}
-                  >
+                    onClick={handleProfileClick}                  >
                     Profile
                   </li>
                   <li

@@ -6,7 +6,7 @@ import Navbar from "./components/Navbar.jsx";
 import Companies from "./pages/Companies.jsx";
 import CompanyRegister from "./pages/CompanyRegister.jsx";
 import CompanyLogin from "./pages/CompanyLogin.jsx";
-import EditProfile from "./pages/EditProfile.jsx";
+import CompanyProfile from "./pages/CompanyProfile.jsx";
 import "./index.css";
 
 function PrivateRoute({ children, isAuthenticated }) {
@@ -69,7 +69,7 @@ export default function App() {
           path="/profile"
           element={
             <PrivateRoute isAuthenticated={isAuthenticated}>
-              <EditProfile />
+              <CompanyProfile />
             </PrivateRoute>
           }
         />

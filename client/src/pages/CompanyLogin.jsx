@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const CompanyLogin = ({
   setIsAuthenticated,
@@ -33,10 +34,16 @@ const CompanyLogin = ({
         formData
       );
 
+      console.log(res);
+
       setLoading(false);
 
       if (res.status === 200) {
+        const { token } = res.data;
+        console.log(token);
+
         setIsAuthenticated(true);
+        Cookies.set("access_token", token);
         setIsCompany(true);
         setUserName(res.data.C_Name);
         closeDropdown();
