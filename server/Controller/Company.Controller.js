@@ -30,32 +30,33 @@ const login = async (req, res, next) => {
         return next(errorHandler(400, "Email and Password are required."));
     }
 
-
     try {
-        const validCompany = await Company.findOne({ C_Email: C_Email })
+        const validCompany = await Company.findOne({ C_Email: C_Email });
 
-        if (!validCompany) return next(errorHandler(404, "User not found!"))
+        if (!validCompany) return next(errorHandler(404, "User not found!"));
 
-        const validPassword = bcrypt.compareSync(Password, validCompany.Password)
+        const validPassword = bcrypt.compareSync(Password, validCompany.Password);
 
-        if (!validPassword) return next(errorHandler(401, "Invalid credentials"))
+        if (!validPassword) return next(errorHandler(401, "Invalid credentials"));
 
         const token = jwt.sign({ id: validCompany._id }, process.env.JWT_SECRET);
 
-        //destructuring _doc object and extracting the password and rest of the property of valid company
-        const { Password: hashedPassword, ...rest } = validCompany._doc
+        // Return the token and company details
+        const { Password: hashedPassword, ...rest } = validCompany._doc;
 
         const expiryDate = new Date(Date.now() + 3600000 * 24 * 7)
 
         //generating the cookie
-        res.cookie("access_token", token, { httpOnly: true, expires: expiryDate })
-            .status(200).json(rest)
+        res.cookie("access_token", token, {
+            httpOnly: false, secure: process.env.NODE_ENV === 'production',
+            expires: expiryDate
+        });
 
+        res.status(200).json({ ...rest, token });
 
     } catch (error) {
-        next(error)
+        next(error);
     }
-
 };
 
 
@@ -83,6 +84,24 @@ const getAllCompanies = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+
+const getLoggedInCompany = async (req, res) => {
+    console.log(req)
+    try {
+        const companyId = req.companyId;
+        console.log(companyId)
+        const company = await Company.findById(companyId);
+        console.log(company)
+
+        if (!company) return res.status(404).json({ message: "Company not found" });
+
+        res.json(company);
+    } catch (err) {
+        console.error('Error in finding company:', err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
 
 const getCompanyById = async (req, res) => {
     try {
@@ -182,7 +201,7 @@ const searchCompanies = async (req, res) => {
                 { Address: { $regex: regex } },
             ]
         });
-            
+
 
         if (companies.length === 0) {
             return res.status(404).json({ message: `No companies found for keyword: ${keyword}` });
@@ -196,4 +215,4 @@ const searchCompanies = async (req, res) => {
 };
 
 
-module.exports = { register, login, logout, getAllCompanies, getCompanyById, updateCompany, deleteCompany, getCompaniesByCategory, searchCompanies };
+module.exports = { register, login, logout, getAllCompanies, getLoggedInCompany, getCompanyById, updateCompany, deleteCompany, getCompaniesByCategory, searchCompanies };
