@@ -52,13 +52,13 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
   };
 
   return (
-    <div className="mt-8 p-6 bg-gray-800 text-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4 text-center">
+    <div className="mt-8 p-6 bg-[#fffcf2] text-white rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold mb-4 text-center text-black">
         Edit Company Details
       </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium mb-1">
+          <label className="block text-sm font-medium mb-1 text-gray-800">
             Your Company Name
           </label>
           <input
@@ -66,31 +66,35 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
             name="C_Name"
             value={formData.C_Name}
             onChange={handleChange}
-            className="w-full p-1 text-black border rounded"
+            className="w-full p-1 text-black text-sm border rounded"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Your Email</label>
+          <label className="block text-sm font-medium mb-1 text-gray-800">
+            Your Email
+          </label>
           <input
             type="email"
             name="C_Email"
             value={formData.C_Email}
             onChange={handleChange}
-            className="w-full p-1 border text-black rounded"
+            className="w-full p-1 border text-black text-sm rounded"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Your Address</label>
+          <label className="block text-sm font-medium mb-1 text-gray-800">
+            Your Address
+          </label>
           <input
             type="text"
             name="Address"
             value={formData.Address}
             onChange={handleChange}
-            className="w-full p-1 border text-black rounded"
+            className="w-full p-1 border text-black text-sm rounded"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">
+          <label className="block text-sm font-medium mb-1 text-gray-800">
             Your Established Date
           </label>
           <input
@@ -98,11 +102,11 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
             name="DOB"
             value={formData.DOB?.split("T")[0] || ""}
             onChange={handleChange}
-            className="w-full p-1 border text-black rounded"
+            className="w-full p-1 border text-black text-sm rounded"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">
+          <label className="block text-sm font-medium mb-1 text-gray-800">
             Your Phone Number
           </label>
           <input
@@ -110,24 +114,28 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
             name="Phone_number"
             value={formData.Phone_number}
             onChange={handleChange}
-            className="w-full p-1 border text-black rounded"
+            className="w-full p-1 border text-black text-sm rounded"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Your Bio</label>
+          <label className="block text-sm font-medium mb-1 text-gray-800">
+            Your Bio
+          </label>
           <input
             type="text"
             name="description"
             value={formData.description}
             onChange={handleChange}
-            className="w-full p-1 border text-black rounded"
+            className="w-full p-1 border text-black text-sm rounded"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Category</label>
+          <label className="block text-sm font-medium mb-1 text-gray-800">
+            Category
+          </label>
           <select
             id="Category"
-            className="bg-gray-100 text-black p-1 text-sm  rounded-lg border border-gray-300"
+            className="bg-white text-black p-1 text-sm  rounded-lg border border-gray-300"
             value={formData.Category}
             onChange={handleChange}
             required
@@ -145,14 +153,14 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
         <div className="mt-4">
           <button
             type="submit"
-            className="bg-emerald-500 text-white px-2 py-1 rounded hover:bg-emerald-600"
+            className="bg-emerald-500 text-white px-2 py-1 rounded hover:bg-emerald-600 text-sm"
           >
             Save Changes
           </button>
           <button
             type="button"
             onClick={() => setIsEditing(false)}
-            className="ml-4 bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-600"
+            className="ml-4 bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-600 text-sm"
           >
             Cancel
           </button>

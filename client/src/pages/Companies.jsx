@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Pagination from "../components/Pagination";
 import Search from "../components/Search";
 import Filter from "../components/Filter";
-import CompanyDetails from "../components/CompanyDetails.jsx";
+import CompanyDetails from "./CompanyDetails.jsx";
 
 const Companies = () => {
   const navigate = useNavigate();
@@ -102,7 +102,6 @@ const Companies = () => {
 
   const handleCompanyClick = (company) => {
     setSelectedCompanyId(company._id);
-    console.log(company);
     console.log(company._id);
   };
 
@@ -155,6 +154,9 @@ const Companies = () => {
               <div
                 key={company._id}
                 className="bg-[#fffcf2] rounded-lg border-2 shadow-md p-2 hover:shadow-lg hover:scale-105 transition duration-300"
+                style={{
+                  background: `linear-gradient(135deg, #fffcf2 50%, #fecaca 50%)`,
+                }}
                 onClick={() => handleCompanyClick(company)}
               >
                 <h3 className="text-sm font-semibold mb-1">{company.C_Name}</h3>
