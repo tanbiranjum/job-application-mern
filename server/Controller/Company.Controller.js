@@ -85,23 +85,6 @@ const getAllCompanies = async (req, res) => {
     }
 };
 
-const getLoggedInCompany = async (req, res) => {
-    console.log(req)
-    try {
-        const companyId = req.companyId;
-        console.log(companyId)
-        const company = await Company.findById(companyId);
-        console.log(company)
-
-        if (!company) return res.status(404).json({ message: "Company not found" });
-
-        res.json(company);
-    } catch (err) {
-        console.error('Error in finding company:', err);
-        res.status(500).json({ message: "Internal server error" });
-    }
-};
-
 
 const getCompanyById = async (req, res) => {
     try {
@@ -215,4 +198,4 @@ const searchCompanies = async (req, res) => {
 };
 
 
-module.exports = { register, login, logout, getAllCompanies, getLoggedInCompany, getCompanyById, updateCompany, deleteCompany, getCompaniesByCategory, searchCompanies };
+module.exports = { register, login, logout, getAllCompanies, getCompanyById, updateCompany, deleteCompany, getCompaniesByCategory, searchCompanies };

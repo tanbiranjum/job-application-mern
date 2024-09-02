@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Pagination from "../components/Pagination";
 import Search from "../components/Search";
 import Filter from "../components/Filter";
+import CompanyDetails from "../components/CompanyDetails.jsx";
 
 const Companies = () => {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ const Companies = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [isFiltering, setIsFiltering] = useState(false);
+  const [selectedCompanyId, setSelectedCompanyId] = useState(null);
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -98,6 +100,16 @@ const Companies = () => {
     }
   };
 
+  const handleCompanyClick = (company) => {
+    setSelectedCompanyId(company._id);
+    console.log(company);
+    console.log(company._id);
+  };
+
+  const handleCloseDetails = () => {
+    setSelectedCompanyId(null);
+  };
+
   const indexOfLastCompany = currentPage * companiesPerPage;
   const indexOfFirstCompany = indexOfLastCompany - companiesPerPage;
 
@@ -141,8 +153,9 @@ const Companies = () => {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 w-full">
             {currentCompanies.map((company) => (
               <div
-                key={company.id}
+                key={company._id}
                 className="bg-[#fffcf2] rounded-lg border-2 shadow-md p-2 hover:shadow-lg hover:scale-105 transition duration-300"
+                onClick={() => handleCompanyClick(company)}
               >
                 <h3 className="text-sm font-semibold mb-1">{company.C_Name}</h3>
                 <p className="text-sm text-gray-600 mb-1">
@@ -167,6 +180,13 @@ const Companies = () => {
         paginate={paginate}
         currentPage={currentPage}
       />
+
+      {selectedCompanyId && (
+        <CompanyDetails
+          companyId={selectedCompanyId}
+          onClose={handleCloseDetails}
+        />
+      )}
     </div>
   );
 };

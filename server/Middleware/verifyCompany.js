@@ -2,14 +2,14 @@ const jwt = require("jsonwebtoken")
 const { errorHandler } = require("./errorHandler")
 
 const verifyToken = (req, res, next) => {
+    const authHeader = req.headers.authorization;
 
-    const token = req.headers.authorization.split(' ')[1];
-    console.log("Token:", token);
-
-    if (!token) {
-        console.error("Token is missing.");
+    if (!authHeader || !authHeader.startsWith('Bearer')) {
+        console.error("Authorization header is missing or not formatted correctly.");
         return next(errorHandler(401, "Company is not authenticated!"));
     }
+
+    const token = authHeader.split(' ')[1];
 
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
@@ -21,5 +21,8 @@ const verifyToken = (req, res, next) => {
         next();
     });
 };
+
+module.exports = { verifyToken };
+
 
 module.exports = { verifyToken }

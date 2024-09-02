@@ -69,7 +69,11 @@ export default function App() {
           path="/profile"
           element={
             <PrivateRoute isAuthenticated={isAuthenticated}>
-              <CompanyProfile />
+              <CompanyProfile
+                setIsAuthenticated={setIsAuthenticated}
+                setIsCompany={setIsCompany}
+                setUserName={setUserName}
+              />
             </PrivateRoute>
           }
         />
