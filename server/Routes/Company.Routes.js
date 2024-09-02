@@ -1,5 +1,5 @@
 const express = require('express');
-const { register, login, logout, getAllCompanies, getCompanyById, updateCompany, deleteCompany, getCompaniesByCategory, searchCompanies } = require("../Controller/Company.Controller.js");
+const { register, login, logout, verifyPassword, getAllCompanies, getCompanyById, updateCompany, deleteCompany, getCompaniesByCategory, searchCompanies } = require("../Controller/Company.Controller.js");
 const { verifyToken } = require("../Middleware/verifyCompany.js")
 
 const router = express.Router();
@@ -8,6 +8,8 @@ const router = express.Router();
 router.post("/register", register);
 router.post("/login", login);
 router.get("/logout", logout)
+router.post('/verify-password', verifyPassword);
+
 
 //Queries
 router.get('/companies/filter', getCompaniesByCategory);

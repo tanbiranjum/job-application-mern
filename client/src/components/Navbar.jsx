@@ -57,7 +57,7 @@ const Navbar = ({
                 <ul className="absolute bg-[#fffcf2] text-sm shadow-md rounded-md py-2 transition-transform transform translate-y-2 origin-top-right z-50">
                   <li
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => navigate("/login")}
+                    onClick={() => navigate("/")}
                   >
                     Login as Employee
                   </li>
@@ -79,7 +79,7 @@ const Navbar = ({
                 {userName || (isCompany ? "Company Name" : "User")}
               </button>
               {dropdownOpen && (
-                <ul className="absolute bg-white shadow-md mt-2 rounded-md py-2 transition-transform transform translate-y-2 origin-top-right">
+                <ul className="absolute bg-white shadow-md mt-2 text-sm rounded-md py-2 transition-transform transform translate-y-2 origin-top-right">
                   <li
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     onClick={handleProfileClick}

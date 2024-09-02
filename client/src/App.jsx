@@ -8,6 +8,7 @@ import CompanyRegister from "./pages/CompanyRegister.jsx";
 import CompanyLogin from "./pages/CompanyLogin.jsx";
 import CompanyProfile from "./pages/CompanyProfile.jsx";
 import "./index.css";
+import CompanyDetails from "./pages/CompanyDetails.jsx";
 
 function PrivateRoute({ children, isAuthenticated }) {
   return isAuthenticated ? children : <Navigate to="/login" />;
@@ -74,6 +75,14 @@ export default function App() {
                 setIsCompany={setIsCompany}
                 setUserName={setUserName}
               />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/companies/:companyId"
+          element={
+            <PrivateRoute isAuthenticated={isAuthenticated}>
+              <CompanyDetails />
             </PrivateRoute>
           }
         />

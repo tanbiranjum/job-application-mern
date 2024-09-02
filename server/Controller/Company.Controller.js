@@ -66,6 +66,23 @@ const logout = async (req, res) => {
 
 }
 
+
+const verifyPassword = async (req, res, next) => {
+    const { companyId, password } = req.body;
+
+    try {
+        const company = await Company.findById(companyId);
+        if (!company) return res.status(404).json({ message: "Company not found!" });
+
+        const validPassword = await bcrypt.compare(password, company.Password);
+        if (!validPassword) return res.status(401).json({ message: "Invalid password!" });
+
+        res.status(200).json({ message: "Password verified successfully!" });
+    } catch (error) {
+        next(error);
+    }
+};
+
 // <!-------------    CRUD Controllers     -----------------!>
 
 const getAllCompanies = async (req, res) => {
@@ -198,4 +215,4 @@ const searchCompanies = async (req, res) => {
 };
 
 
-module.exports = { register, login, logout, getAllCompanies, getCompanyById, updateCompany, deleteCompany, getCompaniesByCategory, searchCompanies };
+module.exports = { register, login, logout, verifyPassword, getAllCompanies, getCompanyById, updateCompany, deleteCompany, getCompaniesByCategory, searchCompanies };
