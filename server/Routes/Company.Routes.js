@@ -1,5 +1,5 @@
 const express = require('express');
-const { register, login, logout, getAllCompanies, getLoggedInCompany, getCompanyById, updateCompany, deleteCompany, getCompaniesByCategory, searchCompanies } = require("../Controller/Company.Controller.js");
+const { register, login, logout, getAllCompanies, getCompanyById, updateCompany, deleteCompany, getCompaniesByCategory, searchCompanies } = require("../Controller/Company.Controller.js");
 const { verifyToken } = require("../Middleware/verifyCompany.js")
 
 const router = express.Router();
@@ -17,7 +17,6 @@ router.get('/companies/search', searchCompanies);
 
 // CRUD routes
 router.get("/companies", getAllCompanies);
-router.get("/profile", verifyToken, getLoggedInCompany);
 router.get('/companies/:companyId', verifyToken, getCompanyById);
 router.put('/companies/:companyId', verifyToken, updateCompany);
 router.delete('/companies/:companyId', verifyToken, deleteCompany);
