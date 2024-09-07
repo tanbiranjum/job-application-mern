@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
 import companyLogo from "../assets/copany_profile.png";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import EditCompanyForm from "./EditCompanyForm.jsx";
@@ -40,6 +41,7 @@ const CompanyProfile = ({ setIsAuthenticated, setIsCompany, setUserName }) => {
       } catch (error) {
         console.error("Error fetching company:", error);
         setError("Could not fetch company details.");
+        toast.error("Could not fetch company details.");
       } finally {
         setLoading(false);
       }
@@ -54,6 +56,7 @@ const CompanyProfile = ({ setIsAuthenticated, setIsCompany, setUserName }) => {
 
   const updateCompanyData = (updatedCompany) => {
     setCompany(updatedCompany);
+    toast.success("Company details updated successfully!");
   };
 
   const handleDeleteConfirmation = () => {

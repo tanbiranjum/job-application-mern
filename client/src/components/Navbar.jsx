@@ -2,27 +2,17 @@
 /* eslint-disable react/prop-types */
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
 
-const Navbar = ({
-  isAuthenticated,
-  setIsAuthenticated,
-  isCompany,
-  setIsCompany,
-  userName,
-  setUserName,
-  dropdownOpen,
-  toggleDropdown,
-  closeDropdown,
-}) => {
+const Navbar = ({ dropdownOpen, toggleDropdown, closeDropdown }) => {
+  const { isAuthenticated, userName, isCompany, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    Cookies.remove("access_token");
-    setIsAuthenticated(false);
-    setIsCompany(false);
-    setUserName("");
+    logout();
     closeDropdown();
+    toast.success("Logged out successfully!");
     navigate("/");
   };
 

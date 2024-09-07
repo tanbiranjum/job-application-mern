@@ -2,12 +2,10 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import Cookies from "js-cookie";
+import { useAuth } from "../context/AuthContext";
+import { toast } from "react-toastify";
 
 const CompanyLogin = ({
-  setIsAuthenticated,
-  setIsCompany,
-  setUserName,
   closeDropdown,
 }) => {
   const [formData, setFormData] = useState({
@@ -16,6 +14,8 @@ const CompanyLogin = ({
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -39,17 +39,14 @@ const CompanyLogin = ({
       setLoading(false);
 
       if (res.status === 200) {
-        const { token } = res.data;
-        console.log(token);
-
-        setIsAuthenticated(true);
-        Cookies.set("access_token", token);
-        setIsCompany(true);
-        setUserName(res.data.C_Name);
+        const { token, C_Name } = res.data;
+        login(token, C_Name);
         closeDropdown();
+        toast.success("Logged in successfully!");
         navigate("/");
       } else {
         setError("Invalid credentials!");
+        toast.error("Invalid credentials!");
       }
     } catch (error) {
       setLoading(false);

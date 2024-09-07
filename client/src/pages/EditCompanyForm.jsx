@@ -4,6 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import categories from "../utils/categories";
+import { toast } from "react-toastify";
 
 const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
   const [formData, setFormData] = useState({
@@ -16,8 +17,6 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
     description: company.description || "",
   });
 
-  console.log(formData);
-
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -25,8 +24,12 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
     });
   };
 
+  console.log(formData);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Submit button clicked");
+
     try {
       const token = Cookies.get("access_token");
       if (token) {
@@ -45,9 +48,11 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
         );
         updateCompanyData(response.data);
         setIsEditing(false);
+        toast.success("Company details updated successfully!");
       }
     } catch (error) {
       console.error("Error updating company:", error);
+      toast.error("An error occurred while updating the company details.");
     }
   };
 
@@ -68,6 +73,7 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
             onChange={handleChange}
             className="w-full p-1 text-black text-sm border rounded"
           />
+
         </div>
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-800">
@@ -80,6 +86,7 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
             onChange={handleChange}
             className="w-full p-1 border text-black text-sm rounded"
           />
+
         </div>
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-800">
@@ -92,6 +99,7 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
             onChange={handleChange}
             className="w-full p-1 border text-black text-sm rounded"
           />
+
         </div>
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-800">
@@ -116,6 +124,7 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
             onChange={handleChange}
             className="w-full p-1 border text-black text-sm rounded"
           />
+
         </div>
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-800">
@@ -128,6 +137,7 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
             onChange={handleChange}
             className="w-full p-1 border text-black text-sm rounded"
           />
+
         </div>
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-800">
@@ -149,6 +159,7 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
               </option>
             ))}
           </select>
+
         </div>
         <div className="mt-4">
           <button

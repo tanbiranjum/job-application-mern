@@ -11,6 +11,12 @@ const register = async (req, res, next) => {
     const { C_Name, C_Email, Password, Category } = req.body;
 
     try {
+
+        const existingCompany = await Company.findOne({ C_Email });
+        if (existingCompany) {
+            return res.status(400).json({ success: false, message: "Company already exists with this email!" });
+        }
+
         const hashedPassword = await bcrypt.hash(Password, 10);
 
         const newCompany = new Company({ C_Name, C_Email, Password: hashedPassword, Category });
