@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import categories from "../utils/categories";
+import { toast } from "react-toastify";
 
 export default function CompanyRegister() {
   const [formData, setFormData] = useState({
@@ -34,20 +35,24 @@ export default function CompanyRegister() {
 
       if (res.data.success === false) {
         setError(res.data.message || "Something went wrong!");
+        toast.error(res.data.message || "Something went wrong!");
         return;
       }
 
-      alert("Company created successfully!");
+      toast.success("Company created successfully!");
       setFormData({
         C_Name: "",
         C_Email: "",
         Password: "",
         Category: "",
       });
-      navigate("/login");
+      navigate("/company-login");
     } catch (error) {
       setLoading(false);
       setError(
+        error.response?.data?.message || "An error occurred. Please try again."
+      );
+      toast.error(
         error.response?.data?.message || "An error occurred. Please try again."
       );
     }

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import backgroundImage from "../assets/copany_profile.png";
+import { toast } from "react-toastify";
 
 const CompanyDetails = ({ companyId, onClose }) => {
   const [company, setCompany] = useState(null);
@@ -27,6 +28,7 @@ const CompanyDetails = ({ companyId, onClose }) => {
         } catch (error) {
           console.error("Error fetching company details:", error);
           setError("Failed to load company details.");
+          toast.error("Failed to load company details.");
         }
       }
     };

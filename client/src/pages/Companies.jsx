@@ -6,6 +6,7 @@ import Pagination from "../components/Pagination";
 import Search from "../components/Search";
 import Filter from "../components/Filter";
 import CompanyDetails from "./CompanyDetails.jsx";
+import { toast } from "react-toastify";
 
 const Companies = () => {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ const Companies = () => {
         console.log("Fetched Companies: ", response.data);
       } catch (error) {
         console.error("Error fetching companies:", error);
+        toast.error("An error occurred while fetching companies.");
       }
     };
 
@@ -51,15 +53,23 @@ const Companies = () => {
       const response = await axios.get(
         `http://localhost:5500/api/company/companies/search?keyword=${keyword}`
       );
-      setSearchResults(response.data);
-      setIsSearching(true);
+      if (response.data.length === 0) {
+        toast.info("No companies found for the given keyword."); 
+        setSearchResults([]);
+        setIsSearching(true);
+      } else {
+        setSearchResults(response.data);
+        setIsSearching(true);
+      }
       setCurrentPage(1);
     } catch (error) {
       if (error.response && error.response.status === 404) {
         setSearchResults([]);
         setIsSearching(true);
+        toast.error("No companies found for the given keyword.");
       } else {
         console.error("Error searching companies:", error);
+        toast.error("An error occurred while searching.");
       }
     }
   };
@@ -86,10 +96,12 @@ const Companies = () => {
         console.log(`No companies found for the "${category}" category.`);
         setFilteredCompanies([]);
         setIsFiltering(true);
+        toast.info(`No companies found for the "${category}" category.`);
       } else {
         console.log("Filtered Companies: ", response.data);
         setFilteredCompanies(response.data);
         setIsFiltering(true);
+        toast.success("Companies filtered successfully!");
       }
 
       setCurrentPage(1);
@@ -97,6 +109,7 @@ const Companies = () => {
       console.error("Error filtering companies by category:", error);
       setFilteredCompanies([]);
       setIsFiltering(true);
+      toast.error("An error occurred while filtering companies.");
     }
   };
 

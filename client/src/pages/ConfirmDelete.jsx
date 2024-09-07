@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
+import { toast } from "react-toastify";
+
 
 const ConfirmDelete = ({
   onClose,
@@ -53,8 +55,10 @@ const ConfirmDelete = ({
           setIsCompany(false);
           setUserName("");
           onClose();
+          toast.success("Account deleted successfully!");
         } else {
           setError("Incorrect password. Please try again.");
+          toast.error("Incorrect password. Please try again.");
         }
       } else {
         throw new Error("No token found");
@@ -62,6 +66,7 @@ const ConfirmDelete = ({
     } catch (error) {
       console.error("Error deleting company:", error);
       setError("Invalid password");
+      toast.error("An error occurred while deleting the account.");
     }
   };
 

@@ -1,23 +1,20 @@
-/* eslint-disable react/prop-types */
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useState } from "react";
+import { AuthProvider } from "./context/AuthContext.jsx";
+import PrivateRoute from "./context/PrivateRoute";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./utils/toastStyle.css";
 import Home from "./pages/Homepage.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Companies from "./pages/Companies.jsx";
 import CompanyRegister from "./pages/CompanyRegister.jsx";
 import CompanyLogin from "./pages/CompanyLogin.jsx";
 import CompanyProfile from "./pages/CompanyProfile.jsx";
-import "./index.css";
 import CompanyDetails from "./pages/CompanyDetails.jsx";
-
-function PrivateRoute({ children, isAuthenticated }) {
-  return isAuthenticated ? children : <Navigate to="/login" />;
-}
+import "./index.css";
 
 export default function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isCompany, setIsCompany] = useState(false);
-  const [userName, setUserName] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -29,64 +26,53 @@ export default function App() {
   };
 
   return (
-    <BrowserRouter>
-      <Navbar
-        isAuthenticated={isAuthenticated}
-        setIsAuthenticated={setIsAuthenticated}
-        isCompany={isCompany}
-        setIsCompany={setIsCompany}
-        userName={userName}
-        setUserName={setUserName}
-        dropdownOpen={dropdownOpen}
-        toggleDropdown={toggleDropdown}
-        closeDropdown={closeDropdown}
-      />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/companies"
-          element={
-            <PrivateRoute isAuthenticated={isAuthenticated}>
-              <Companies />
-            </PrivateRoute>
-          }
+    <AuthProvider>
+      <BrowserRouter>
+        <Navbar
+          dropdownOpen={dropdownOpen}
+          toggleDropdown={toggleDropdown}
+          closeDropdown={closeDropdown}
         />
-        <Route
-          path="/company-register"
-          element={<CompanyRegister setIsAuthenticated={setIsAuthenticated} />}
+        <ToastContainer
+          position="bottom-center"
+          autoClose={2000}
+          hideProgressBar={true}
+          className="toast-container"
+          toastClassName="Toastify__toast"
         />
-        <Route
-          path="/company-login"
-          element={
-            <CompanyLogin
-              setIsAuthenticated={setIsAuthenticated}
-              setIsCompany={setIsCompany}
-              setUserName={setUserName}
-              closeDropdown={closeDropdown}
-            />
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <PrivateRoute isAuthenticated={isAuthenticated}>
-              <CompanyProfile
-                setIsAuthenticated={setIsAuthenticated}
-                setIsCompany={setIsCompany}
-                setUserName={setUserName}
-              />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/companies/:companyId"
-          element={
-            <PrivateRoute isAuthenticated={isAuthenticated}>
-              <CompanyDetails />
-            </PrivateRoute>
-          }
-        />
-      </Routes>
-    </BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route
+            path="/companies"
+            element={
+              <PrivateRoute>
+                <Companies />
+              </PrivateRoute>
+            }
+          />
+          <Route path="/company-register" element={<CompanyRegister />} />
+          <Route
+            path="/company-login"
+            element={<CompanyLogin closeDropdown={closeDropdown} />}
+          />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <CompanyProfile />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/companies/:companyId"
+            element={
+              <PrivateRoute>
+                <CompanyDetails />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
