@@ -3,12 +3,10 @@ const dotenv = require('dotenv');
 const express = require('express');
 const cookieParser = require("cookie-parser");
 const employeeRoute = require('./Routes/employeeRoute')
-
 const morgan = require('morgan');
-
 const connectDB = require('./DB/connectDB');
-
 const companyRoutes = require('./Routes/Company.Routes.js')
+const jobRoutes = require('./Routes/jobRoutes.js')
 
 //configure env
 dotenv.config()
@@ -31,6 +29,8 @@ const corsOptions = {
 app.use(cors(corsOptions))
 
 app.use("/api/company", companyRoutes);
+
+app.use("/api/jobs", jobRoutes)
 
 app.get('/', (req, res) => {
   res.send('Your api is live ')

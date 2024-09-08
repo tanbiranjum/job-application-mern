@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const categories = require('../Others/categories.js');
 
 const jobSchema = mongoose.Schema({
 
@@ -48,13 +49,18 @@ const jobSchema = mongoose.Schema({
     },
 
     company_Id: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Company',
         required: true
     },
+    Category: {
+        type: String,
+        enum: categories,
+        required: [true, "Category is required"]
+    },
     Applicant: [
         {
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'Empolyee'
         }
     ],
