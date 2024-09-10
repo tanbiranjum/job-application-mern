@@ -9,8 +9,11 @@ import Home from "./pages/Homepage.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Companies from "./pages/Companies.jsx";
 import CompanyRegister from "./pages/CompanyRegister.jsx";
+import EmployeeRegister from "./pages/EmployeeRegister.jsx";
 import CompanyLogin from "./pages/CompanyLogin.jsx";
+import EmployeeLogin from "./pages/EmployeeLogin.jsx";
 import CompanyProfile from "./pages/CompanyProfile.jsx";
+import EmployeeProfile from "./pages/EmployeeProfile.jsx";
 import CompanyDetails from "./pages/CompanyDetails.jsx";
 import "./index.css";
 
@@ -51,15 +54,29 @@ export default function App() {
             }
           />
           <Route path="/company-register" element={<CompanyRegister />} />
+          <Route path="/employee-register" element={<EmployeeRegister />} />
+          
           <Route
             path="/company-login"
             element={<CompanyLogin closeDropdown={closeDropdown} />}
+          />
+          <Route
+            path="/employee-login"
+            element={<EmployeeLogin closeDropdown={closeDropdown} />}
           />
           <Route
             path="/profile"
             element={
               <PrivateRoute>
                 <CompanyProfile />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/employee-profile"
+            element={
+              <PrivateRoute>
+                <EmployeeProfile />
               </PrivateRoute>
             }
           />

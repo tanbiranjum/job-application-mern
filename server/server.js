@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const connectDB = require('./DB/connectDB');
 const companyRoutes = require('./Routes/Company.Routes.js')
 const jobRoutes = require('./Routes/jobRoutes.js')
+const path = require('path');
 
 //configure env
 dotenv.config()
@@ -36,6 +37,8 @@ app.get('/', (req, res) => {
   res.send('Your api is live ')
 })
 
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 //routes

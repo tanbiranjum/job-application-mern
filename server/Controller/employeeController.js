@@ -190,3 +190,25 @@ exports.getEmployeeById = async (req, res) => {
     res.status(500).send({ message: "Error retrieving employee", error });
   }
 };
+
+exports.verifyPassword = async (req, res, next) => {
+  const { id, Password } = req.body;
+
+    // Validate request parameters
+    if (!id || !Password) {
+      return res.status(400).json({ message: "ID and password are required!" });
+    }
+  
+
+  try {
+      const Employee = await employee.findById(id);
+      if (!Employee) return res.status(404).json({ message: "Company not found!" });
+
+      const validPassword = await bcrypt.compare(Password, Employee.Password);
+      if (!validPassword) return res.status(401).json({ message: "Invalid password!" });
+
+      res.status(200).json({ message: "Password verified successfully!" });
+  } catch (error) {
+      next(error);
+  }
+};
