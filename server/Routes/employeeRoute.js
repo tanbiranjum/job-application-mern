@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router()
-const { register, login, update, deleteEmp,getAllEmployee,getEmployeeById } = require('../Controller/employeeController');
+const { register, login, update, deleteEmp,getAllEmployee,getEmployeeById,verifyPassword } = require('../Controller/employeeController');
 const upload=require('../Middleware/multer')
 
+const verifyEmployee=require("../Middleware/verifyEmployee")
 
 
 
@@ -10,10 +11,12 @@ const upload=require('../Middleware/multer')
 //routing
 router.post('/register', register)
 router.post('/login', login)
-router.put('/update/:id',upload.single('Photo'), update)
-router.delete('/delete/:id', deleteEmp)
+router.put('/update/:id',upload.single('Photo'),verifyEmployee, update)
+router.delete('/delete/:id', verifyEmployee,deleteEmp)
 router.get('/getAllEmployee', getAllEmployee)
-router.get('/getEmployeeById/:id', getEmployeeById)
+router.get('/getEmployeeById/:id',verifyEmployee, getEmployeeById)
+router.post('/verify-password', verifyPassword);
+
 
 
 // Test route for file upload

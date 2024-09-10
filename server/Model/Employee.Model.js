@@ -36,7 +36,7 @@ const empolyeeSchema = new mongoose.Schema({
         type: [String]
     },
     Experience: {
-        type: [String]
+        type: [String || Number]
     },
     Education: {
         type: [String]
