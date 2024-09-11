@@ -21,6 +21,12 @@ const Navbar = ({ dropdownOpen, toggleDropdown, closeDropdown }) => {
     closeDropdown();
   };
 
+
+  const handleEmployeeProfileClick = () => {
+    navigate(`/employee-profile`);
+    closeDropdown();
+  };
+
   return (
     <div className="bg-gradient-to-r from-rose-300 to-rose-300 via-red-300 relative z-50">
       <div className="flex justify-between items-center mx-auto max-w-6xl px-8 py-4">
@@ -47,7 +53,7 @@ const Navbar = ({ dropdownOpen, toggleDropdown, closeDropdown }) => {
                 <ul className="absolute bg-[#fffcf2] text-sm shadow-md rounded-md py-2 transition-transform transform translate-y-2 origin-top-right z-50">
                   <li
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => navigate("/")}
+                    onClick={() => navigate("/employee-login")}
                   >
                     Login as Employee
                   </li>
@@ -75,6 +81,12 @@ const Navbar = ({ dropdownOpen, toggleDropdown, closeDropdown }) => {
                     onClick={handleProfileClick}
                   >
                     Profile
+                  </li>
+                  <li
+                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                    onClick={handleEmployeeProfileClick}
+                  >
+                    Employee Profile
                   </li>
                   <li
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
