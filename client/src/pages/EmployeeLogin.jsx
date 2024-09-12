@@ -5,9 +5,7 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
 
-const EmployeeLogin = ({
-  closeDropdown,
-}) => {
+const EmployeeLogin = ({ closeDropdown }) => {
   const [formData, setFormData] = useState({
     E_Email: "",
     Password: "",
@@ -29,18 +27,15 @@ const EmployeeLogin = ({
       setLoading(true);
       setError("");
 
-      const res = await axios.post(
-        "http://localhost:5500/login",
-        formData
-      );
+      const res = await axios.post("http://localhost:5500/login", formData);
 
       console.log(res);
 
       setLoading(false);
 
       if (res.status === 200) {
-        const { token, E_Name } = res.data;
-        login(token, E_Name);
+        const { token } = res.data;
+        login(token);
         closeDropdown();
         toast.success("Logged in successfully!");
         navigate("/");

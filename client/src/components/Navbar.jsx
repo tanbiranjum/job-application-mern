@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -17,12 +17,11 @@ const Navbar = ({ dropdownOpen, toggleDropdown, closeDropdown }) => {
   };
 
   const handleProfileClick = () => {
-    navigate(`/profile`);
-    closeDropdown();
-  };
-
-  const handleEmployeeProfileClick = () => {
-    navigate(`/employee-profile`);
+    if (isCompany) {
+      navigate(`/company-profile`);
+    } else {
+      navigate(`/employee-profile`);
+    }
     closeDropdown();
   };
 
@@ -71,7 +70,7 @@ const Navbar = ({ dropdownOpen, toggleDropdown, closeDropdown }) => {
                 className="font-bold focus:outline-none"
                 onClick={toggleDropdown}
               >
-                {userName || (isCompany ? "Company Name" : "User")}
+                {userName}
               </button>
               {dropdownOpen && (
                 <ul className="absolute bg-white shadow-md mt-2 text-sm rounded-md py-2 transition-transform transform translate-y-2 origin-top-right">
@@ -79,13 +78,7 @@ const Navbar = ({ dropdownOpen, toggleDropdown, closeDropdown }) => {
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     onClick={handleProfileClick}
                   >
-                    Profile
-                  </li>
-                  <li
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={handleEmployeeProfileClick}
-                  >
-                    Employee Profile
+                    {isCompany ? "Company Profile" : "Employee Profile"}
                   </li>
                   <li
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"

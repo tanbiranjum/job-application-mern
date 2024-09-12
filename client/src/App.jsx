@@ -55,7 +55,7 @@ export default function App() {
           />
           <Route path="/company-register" element={<CompanyRegister />} />
           <Route path="/employee-register" element={<EmployeeRegister />} />
-          
+
           <Route
             path="/company-login"
             element={<CompanyLogin closeDropdown={closeDropdown} />}
@@ -65,7 +65,7 @@ export default function App() {
             element={<EmployeeLogin closeDropdown={closeDropdown} />}
           />
           <Route
-            path="/profile"
+            path="/company-profile"
             element={
               <PrivateRoute>
                 <CompanyProfile />

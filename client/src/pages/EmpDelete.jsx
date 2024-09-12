@@ -5,14 +5,11 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
 
-
-const EmpDelete = ({
-  onClose,
-  setIsAuthenticated,
-  setIsEmployee,
-  setUserName,
-}) => {
+const EmpDelete = ({ onClose }) => {
+  const { setIsAuthenticated, setIsCompany, setUserName, setIsEmployee } =
+    useAuth();
   const [Password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPasswordField, setShowPasswordField] = useState(false);
@@ -40,20 +37,18 @@ const EmpDelete = ({
         );
 
         if (verifyResponse.data.message === "Password verified successfully!") {
-          await axios.delete(
-            `http://localhost:5500/delete/${id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-              withCredentials: true,
-            }
-          );
+          await axios.delete(`http://localhost:5500/delete/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            withCredentials: true,
+          });
 
           Cookies.remove("access_token");
           setIsAuthenticated(false);
-          setIsEmployee(false);
           setUserName("");
+          setIsCompany(false);
+          setIsEmployee(false);
           onClose();
           toast.success("Account deleted successfully!");
         } else {
