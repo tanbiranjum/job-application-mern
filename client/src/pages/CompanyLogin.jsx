@@ -5,9 +5,7 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { toast } from "react-toastify";
 
-const CompanyLogin = ({
-  closeDropdown,
-}) => {
+const CompanyLogin = ({ closeDropdown }) => {
   const [formData, setFormData] = useState({
     C_Email: "",
     Password: "",
@@ -34,13 +32,11 @@ const CompanyLogin = ({
         formData
       );
 
-      console.log(res);
-
       setLoading(false);
 
       if (res.status === 200) {
-        const { token, C_Name } = res.data;
-        login(token, C_Name);
+        const { token } = res.data;
+        login(token);
         closeDropdown();
         toast.success("Logged in successfully!");
         navigate("/");

@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -8,9 +7,9 @@ import { toast } from "react-toastify";
 import companyLogo from "../assets/copany_profile.png";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import EditCompanyForm from "./EditCompanyForm.jsx";
-import DeleteConfirmation from "./ConfirmDelete.jsx";
+import ConfirmDelete from "./ConfirmDelete.jsx";
 
-const CompanyProfile = ({ setIsAuthenticated, setIsCompany, setUserName }) => {
+const CompanyProfile = () => {
   const [company, setCompany] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -153,12 +152,7 @@ const CompanyProfile = ({ setIsAuthenticated, setIsCompany, setUserName }) => {
           />
         )}
         {showDeleteConfirmation && (
-          <DeleteConfirmation
-            onClose={handleCloseConfirmation}
-            setIsAuthenticated={setIsAuthenticated}
-            setIsCompany={setIsCompany}
-            setUserName={setUserName}
-          />
+          <ConfirmDelete onClose={handleCloseConfirmation} />
         )}
       </div>
     </div>

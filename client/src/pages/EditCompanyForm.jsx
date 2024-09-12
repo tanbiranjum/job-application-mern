@@ -24,8 +24,6 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
     });
   };
 
-  console.log(formData);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Submit button clicked");
@@ -48,7 +46,6 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
         );
         updateCompanyData(response.data);
         setIsEditing(false);
-        toast.success("Company details updated successfully!");
       }
     } catch (error) {
       console.error("Error updating company:", error);
@@ -73,7 +70,6 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
             onChange={handleChange}
             className="w-full p-1 text-black text-sm border rounded"
           />
-
         </div>
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-800">
@@ -86,7 +82,6 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
             onChange={handleChange}
             className="w-full p-1 border text-black text-sm rounded"
           />
-
         </div>
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-800">
@@ -99,7 +94,6 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
             onChange={handleChange}
             className="w-full p-1 border text-black text-sm rounded"
           />
-
         </div>
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-800">
@@ -124,7 +118,6 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
             onChange={handleChange}
             className="w-full p-1 border text-black text-sm rounded"
           />
-
         </div>
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-800">
@@ -137,7 +130,6 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
             onChange={handleChange}
             className="w-full p-1 border text-black text-sm rounded"
           />
-
         </div>
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-800">
@@ -159,7 +151,6 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
               </option>
             ))}
           </select>
-
         </div>
         <div className="mt-4">
           <button
