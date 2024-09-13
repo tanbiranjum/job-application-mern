@@ -54,7 +54,7 @@ const Companies = () => {
         `http://localhost:5500/api/company/companies/search?keyword=${keyword}`
       );
       if (response.data.length === 0) {
-        toast.info("No companies found for the given keyword."); 
+        toast.info("No companies found for the given keyword.");
         setSearchResults([]);
         setIsSearching(true);
       } else {
@@ -143,7 +143,7 @@ const Companies = () => {
     <div className="relative">
       <div className="flex justify-between items-center p-4 space-x-4">
         <h2 className="text-lg font-bold items-center text-center p-2">
-          Browse companies
+          Browse Companies
         </h2>
         <Filter
           selectedCategory={selectedCategory}
