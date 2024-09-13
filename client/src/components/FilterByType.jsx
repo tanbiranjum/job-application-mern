@@ -1,25 +1,25 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React from "react";
-import categories from "../utils/categories";
+import types from "../utils/types";
 
-const Filter = ({ selectedCategory, onCategoryChange }) => {
+const FilterByType = ({ selectedType, onTypeChange }) => {
   return (
-    <>
+    <div className="flex space-x-2">
       <select
         className="bg-[#fffcf2] border border-gray-300 rounded-md shadow-sm p-1 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
-        value={selectedCategory}
-        onChange={onCategoryChange}
+        value={selectedType}
+        onChange={onTypeChange}
       >
-        <option value="">All Categories</option>
-        {categories.map((category) => (
+        <option value="">Any Type</option>
+        {types.map((category) => (
           <option key={category} value={category}>
             {category}
           </option>
         ))}
       </select>
-    </>
+    </div>
   );
 };
 
-export default Filter;
+export default FilterByType;

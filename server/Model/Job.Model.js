@@ -18,7 +18,7 @@ const jobSchema = mongoose.Schema({
     job_type: {
         type: String,
         required: true,
-        enum: ['full_time', 'part_time', 'contract', 'internship', 'temporary']
+        enum: ['Full-time', 'Part-time', 'Internship', 'Hybrid', 'Contractual']
     },
     salary: {
         type: Number
@@ -61,7 +61,7 @@ const jobSchema = mongoose.Schema({
     Applicant: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Empolyee'
+            ref: 'Employee'
         }
     ],
 

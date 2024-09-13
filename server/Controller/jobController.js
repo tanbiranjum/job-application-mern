@@ -132,6 +132,24 @@ const getJobsByType = async (req, res) => {
     }
 };
 
+
+const getCompanyJobs = async (req, res) => {
+    try {
+      const { companyId } = req.params;
+  
+      const jobs = await Job.find({ company_Id: companyId });
+  
+      if (jobs.length === 0) {
+        return res.status(200).json([]);
+      }
+  
+      res.json(jobs);
+    } catch (err) {
+      console.error('Error in finding jobs by company:', err);
+      res.status(500).json({ message: err.message });
+    }
+  };
+
 // Search Jobs
 const searchJobs = async (req, res) => {
     try {
@@ -173,7 +191,7 @@ const searchJobs = async (req, res) => {
 
 const applyForJob = async (req, res) => {
     const { jobId } = req.params;
-    const employeeId = req.user.id; // The employee ID should be available in the request (from a JWT)
+    const employeeId = req.user.id;
 
     try {
         const job = await Job.findById(jobId);
@@ -181,7 +199,7 @@ const applyForJob = async (req, res) => {
             return res.status(404).json({ message: "Job not found!" });
         }
 
-        // Check if the employee has already applied
+        // Checking if the employee has already applied
         if (job.Applicant.includes(employeeId)) {
             return res.status(400).json({ message: "You have already applied for this job." });
         }
@@ -206,5 +224,6 @@ module.exports = {
     applyForJob,
     getJobsByCategory,
     getJobsByType,
-    searchJobs
+    searchJobs,
+    getCompanyJobs
 };
