@@ -43,6 +43,10 @@ const empolyeeSchema = new mongoose.Schema({
     },
     Photo:{
         type:String,
+    },
+    Cv: {
+        type: String, 
+        
     }
 
 }, { timestamps: true });

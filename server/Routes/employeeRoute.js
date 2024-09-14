@@ -11,7 +11,9 @@ const verifyEmployee=require("../Middleware/verifyEmployee")
 //routing
 router.post('/register', register)
 router.post('/login', login)
-router.put('/update/:id',upload.single('Photo'),verifyEmployee, update)
+
+router.put('/update/:id',upload.fields([{ name: 'Photo', maxCount: 1 }, { name: 'Cv', maxCount: 1 }]),verifyEmployee, update)
+
 router.delete('/delete/:id', verifyEmployee,deleteEmp)
 router.get('/getAllEmployee', getAllEmployee)
 router.get('/getEmployeeById/:id',verifyEmployee, getEmployeeById)
@@ -26,6 +28,8 @@ router.post('/upload-test', upload.single('photo'), (req, res) => {
 
 
 
+// Serve uploaded files
+router.use('/public', express.static('public'));
 
 
 
