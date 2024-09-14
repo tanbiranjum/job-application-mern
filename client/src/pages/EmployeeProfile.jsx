@@ -157,7 +157,7 @@ const EmployeeProfile = () => {
               {employee.Education || "N/A"}
             </p>
           </div>
-<
+
           <div className="flex text-sm items-center">
             <span className="font-semibold text-gray-800 text-base w-1/3">
               CV:

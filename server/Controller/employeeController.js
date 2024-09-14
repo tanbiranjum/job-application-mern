@@ -71,8 +71,7 @@ exports.login = async (req, res) => {
 
 }
 
-
-// Update
+//update
 exports.update = async (req, res) => {
   try {
     const { id } = req.params;
@@ -80,63 +79,38 @@ exports.update = async (req, res) => {
       return res.status(400).send({ message: "Employee ID is required" });
     }
 
-    const { E_Name, E_Email, Password, Gender, DOB, Address, Phone_number, Bio, Skills, Experience, Education } = req.body
+    const { E_Name, E_Email, Password, Gender, DOB, Address, Phone_number, Bio, Skills, Experience, Education } = req.body;
 
+    // Prepare update data
+    let updateData = { E_Name, E_Email, Gender, DOB, Address, Phone_number, Bio, Skills, Experience, Education };
 
-     // Prepare update data
-     let updateData = { E_Name, E_Email, Gender, DOB, Address, Phone_number, Bio, Skills, Experience, Education };
-
-     // Handle password separately
-     if (Password) {
-
-    let updateFields = { E_Name, E_Email, Gender, DOB, Address, Phone_number, Bio, Skills, Experience, Education };
-
+    // Handle password separately
     if (Password) {
-
       if (Password.length < 6) {
         return res.status(400).send({ message: "Password should be at least 6 characters long" });
       }
       const hashedPassword = await bcrypt.hash(Password, 10);
-
-      updateData.Password = hashedPassword;
-
-      updateFields.Password = hashedPassword;
+      updateData.Password = hashedPassword; // Include hashed password in updateData
     }
 
-    // Handle file upload
-    if (req.file) {
-      updateFields.Photo = path.join('uploads', req.file.filename);
-
-    }
-
+    // Handle file uploads
     if (req.files) {
       if (req.files.Photo) {
         const photoPath = path.join('public/photos', req.files.Photo[0].filename);
-        updateData.Photo = photoPath;
+        updateData.Photo = photoPath; // Add photo path to update data
       }
-
 
       if (req.files.Cv) {
         const cvPath = path.join('public/cvs', req.files.Cv[0].filename);
-        updateData.Cv = cvPath;
+        updateData.Cv = cvPath; // Add CV path to update data
       }
-
-    const updatedEmployee = await employee.findByIdAndUpdate(id, updateFields, { new: true });
-
-    if (!updatedEmployee) {
-      return res.status(404).json({ message: "Employee not found" });
-
     }
-console.log(updateData)
 
-
+    // Update employee data in the database
     const updatedEmployee = await employee.findByIdAndUpdate(id, updateData, { new: true });
-    
 
-    res.status(200).json(updatedEmployee)
-
+    // Send the updated employee data as the response
     res.status(200).json(updatedEmployee);
-
 
   } catch (error) {
     console.log(error);
@@ -190,42 +164,33 @@ exports.getAllEmployee = async (req, res) => {
 };
 
 
-//employee by ID
+// Get employee by ID
 exports.getEmployeeById = async (req, res) => {
   try {
-
-
     const EmployeeDoc = await employee.findById(req.params.id);
 
     if (!EmployeeDoc) {
       return res.status(404).send({ message: "Employee not found" });
     }
 
-
-      // Construct the full URL to the photo
-      if (EmployeeDoc.Photo) {
-        EmployeeDoc.Photo = `http://localhost:5500/public/photos/${path.basename(EmployeeDoc.Photo)}`;
-
     // Construct the full URL to the photo
     if (EmployeeDoc.Photo) {
-      EmployeeDoc.Photo = `http://localhost:5500/uploads/${path.basename(EmployeeDoc.Photo)}`;
-
+      EmployeeDoc.Photo = `http://localhost:5500/public/photos/${path.basename(EmployeeDoc.Photo)}`;
     }
 
+    // Construct the full URL to the CV
     if (EmployeeDoc.Cv) {
       EmployeeDoc.Cv = `http://localhost:5500/public/cvs/${path.basename(EmployeeDoc.Cv)}`;
-  }
+    }
 
-
-    res.json(EmployeeDoc)
-
+    res.json(EmployeeDoc);
   } catch (error) {
-
     console.error(error);
     res.status(500).send({ message: "Error retrieving employee", error });
   }
-
 };
+
+
 
 exports.verifyPassword = async (req, res, next) => {
   const { id, Password } = req.body;
