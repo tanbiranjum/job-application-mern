@@ -16,7 +16,7 @@ const EmployeeProfile = ({ setIsAuthenticated, setIsEmployee, setUserName }) => 
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  const baseUrl="http://localhost:5500"
+ 
 
   useEffect(() => {
     const fetchEmployee = async () => {
@@ -164,6 +164,27 @@ const EmployeeProfile = ({ setIsAuthenticated, setIsEmployee, setUserName }) => 
             </span>
             <p className="font-medium text-gray-700">
               {employee.Education || "N/A"}
+            </p>
+          </div>
+          <div className="flex text-sm items-center">
+            <span className="font-semibold text-gray-800 text-base w-1/3">
+              CV:
+            </span>
+            <p className="font-medium text-gray-700">
+              {/* {employee.Cv || "N/A"} */}
+              {employee.Cv ? (
+      <a
+        href={employee.Cv}
+        target="_blank"
+        rel="noopener noreferrer"
+        download
+        className="bg-red-600 text-white px-2 py-1 rounded hover:bg-blue-600   "
+      >
+        Download CV
+      </a>
+    ) : (
+      <p>No CV uploaded</p>
+    )}
             </p>
           </div>
           

@@ -88,29 +88,33 @@ exports.update = async (req, res) => {
     
     const { E_Name, E_Email, Password, Gender, DOB, Address, Phone_number, Bio, Skills, Experience, Education } = req.body
 
-    // Handle password separately
-    let hashedPassword;
-    if (Password) {
+     // Prepare update data
+     let updateData = { E_Name, E_Email, Gender, DOB, Address, Phone_number, Bio, Skills, Experience, Education };
+
+     // Handle password separately
+     if (Password) {
       if (Password.length < 6) {
         return res.status(400).send({ message: "Password should be at least 6 characters long" });
       }
-      hashedPassword = await bcrypt.hash(Password, 10);
+      const hashedPassword = await bcrypt.hash(Password, 10);
+      updateData.Password = hashedPassword;
     }
 
-    // Handle file upload
-    let photoPath = "";
-    if (req.file) {
-      photoPath = path.join('uploads', req.file.filename);
+    if (req.files) {
+      if (req.files.Photo) {
+        const photoPath = path.join('public/photos', req.files.Photo[0].filename);
+        updateData.Photo = photoPath;
+      }
+
+      if (req.files.Cv) {
+        const cvPath = path.join('public/cvs', req.files.Cv[0].filename);
+        updateData.Cv = cvPath;
+      }
     }
+console.log(updateData)
 
-
-    const updatedEmployee = await employee.findByIdAndUpdate(id, { E_Name, E_Email, Gender, DOB, Address, Phone_number, Bio, Skills, Experience, Education, Photo:photoPath })
-
-    // Update password only if provided
-    if (hashedPassword) {
-      Password = hashedPassword;
-    }
-
+    const updatedEmployee = await employee.findByIdAndUpdate(id, updateData, { new: true });
+    
 
     res.status(200).json(updatedEmployee)
 
@@ -179,8 +183,13 @@ exports.getEmployeeById = async (req, res) => {
 
       // Construct the full URL to the photo
       if (EmployeeDoc.Photo) {
-        EmployeeDoc.Photo = `http://localhost:5500/uploads/${path.basename(EmployeeDoc.Photo)}`;
+        EmployeeDoc.Photo = `http://localhost:5500/public/photos/${path.basename(EmployeeDoc.Photo)}`;
     }
+
+    if (EmployeeDoc.Cv) {
+      EmployeeDoc.Cv = `http://localhost:5500/public/cvs/${path.basename(EmployeeDoc.Cv)}`;
+  }
+
 
     res.json(EmployeeDoc)
 

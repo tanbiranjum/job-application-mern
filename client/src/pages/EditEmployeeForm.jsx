@@ -18,7 +18,8 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
     Skills:employee.Skills || '',
     Experience:employee.Experience || '',
     Education:employee.Education || '',
-    Photo:employee.Photo || ""
+    Photo:employee.Photo || "",
+    Cv:employee.Cv || ""
   
   });
 
@@ -212,11 +213,26 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
         </div>
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-800">
-            Education
+            Photo
           </label>
           <input
             type="file"
             name="Photo"
+            accept="image/*"
+            
+            onChange={handleChange}
+            className="w-full p-1 border text-black text-sm rounded"
+          />
+
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1 text-gray-800">
+            CV
+          </label>
+          <input
+            type="file"
+            name="Cv"
+            accept="pdf"
             
             onChange={handleChange}
             className="w-full p-1 border text-black text-sm rounded"
