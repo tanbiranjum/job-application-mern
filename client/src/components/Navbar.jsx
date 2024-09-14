@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -17,12 +17,21 @@ const Navbar = ({ dropdownOpen, toggleDropdown, closeDropdown }) => {
   };
 
   const handleProfileClick = () => {
-    navigate(`/profile`);
+    if (isCompany) {
+      navigate(`/company-profile`);
+    } else {
+      navigate(`/employee-profile`);
+    }
     closeDropdown();
   };
 
-  const handleEmployeeProfileClick = () => {
-    navigate(`/employee-profile`);
+  const handleCompanyJobsClick = () => {
+    navigate(`/company-jobs`);
+    closeDropdown();
+  };
+
+  const handlePostJobClick = () => {
+    navigate(`/post-job`);
     closeDropdown();
   };
 
@@ -38,9 +47,14 @@ const Navbar = ({ dropdownOpen, toggleDropdown, closeDropdown }) => {
             <li>Home</li>
           </Link>
           {isAuthenticated && (
-            <Link to="/companies">
-              <li>Companies</li>
-            </Link>
+            <>
+              <Link to="/companies">
+                <li>Companies</li>
+              </Link>
+              <Link to="/jobs">
+                <li>Jobs</li>
+              </Link>
+            </>
           )}
 
           {!isAuthenticated ? (
@@ -49,7 +63,7 @@ const Navbar = ({ dropdownOpen, toggleDropdown, closeDropdown }) => {
                 Login
               </button>
               {dropdownOpen && (
-                <ul className="absolute bg-[#fffcf2] text-sm shadow-md rounded-md py-2 transition-transform transform translate-y-2 origin-top-right z-50">
+                <ul className="absolute bg-[#fffcf2] text-xs shadow-md rounded-md py-2 transition-transform transform translate-y-2 origin-top-right z-50">
                   <li
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     onClick={() => navigate("/employee-login")}
@@ -71,22 +85,32 @@ const Navbar = ({ dropdownOpen, toggleDropdown, closeDropdown }) => {
                 className="font-bold focus:outline-none"
                 onClick={toggleDropdown}
               >
-                {userName || (isCompany ? "Company Name" : "User")}
+                {userName}
               </button>
               {dropdownOpen && (
-                <ul className="absolute bg-white shadow-md mt-2 text-sm rounded-md py-2 transition-transform transform translate-y-2 origin-top-right">
+                <ul className="absolute bg-white shadow-md mt-2 text-xs rounded-md py-2 transition-transform transform translate-y-2 origin-top-right">
                   <li
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     onClick={handleProfileClick}
                   >
-                    Profile
+                    {isCompany ? "Company Profile" : "Employee Profile"}
                   </li>
-                  <li
-                    className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                    onClick={handleEmployeeProfileClick}
-                  >
-                    Employee Profile
-                  </li>
+                  {isCompany && (
+                    <>
+                      <li
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                        onClick={handleCompanyJobsClick}
+                      >
+                        Company Jobs
+                      </li>
+                      <li
+                        className="px-4 py-2 w-full hover:bg-gray-100 cursor-pointer"
+                        onClick={handlePostJobClick}
+                      >
+                        Post A Job
+                      </li>
+                    </>
+                  )}
                   <li
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     onClick={handleLogout}

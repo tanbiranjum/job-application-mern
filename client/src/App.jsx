@@ -16,6 +16,9 @@ import CompanyProfile from "./pages/CompanyProfile.jsx";
 import EmployeeProfile from "./pages/EmployeeProfile.jsx";
 import CompanyDetails from "./pages/CompanyDetails.jsx";
 import "./index.css";
+import Jobs from "./pages/Jobs.jsx";
+import CompanyJobs from "./pages/CompanyJobs.jsx";
+import PostJob from "./pages/PostJob.jsx";
 
 export default function App() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -53,9 +56,17 @@ export default function App() {
               </PrivateRoute>
             }
           />
+          <Route
+            path="/jobs"
+            element={
+              <PrivateRoute>
+                <Jobs />
+              </PrivateRoute>
+            }
+          />
           <Route path="/company-register" element={<CompanyRegister />} />
           <Route path="/employee-register" element={<EmployeeRegister />} />
-          
+
           <Route
             path="/company-login"
             element={<CompanyLogin closeDropdown={closeDropdown} />}
@@ -65,7 +76,7 @@ export default function App() {
             element={<EmployeeLogin closeDropdown={closeDropdown} />}
           />
           <Route
-            path="/profile"
+            path="/company-profile"
             element={
               <PrivateRoute>
                 <CompanyProfile />
@@ -85,6 +96,22 @@ export default function App() {
             element={
               <PrivateRoute>
                 <CompanyDetails />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/company-jobs"
+            element={
+              <PrivateRoute>
+                <CompanyJobs />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/post-job"
+            element={
+              <PrivateRoute>
+                <PostJob />
               </PrivateRoute>
             }
           />

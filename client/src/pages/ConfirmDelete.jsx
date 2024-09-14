@@ -5,14 +5,11 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
 
-
-const ConfirmDelete = ({
-  onClose,
-  setIsAuthenticated,
-  setIsCompany,
-  setUserName,
-}) => {
+const ConfirmDelete = ({ onClose }) => {
+  const { setIsAuthenticated, setIsCompany, setUserName, setIsEmployee } =
+    useAuth();
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPasswordField, setShowPasswordField] = useState(false);
@@ -53,6 +50,7 @@ const ConfirmDelete = ({
           Cookies.remove("access_token");
           setIsAuthenticated(false);
           setIsCompany(false);
+          setIsEmployee(false);
           setUserName("");
           onClose();
           toast.success("Account deleted successfully!");

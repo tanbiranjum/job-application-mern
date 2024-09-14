@@ -38,6 +38,10 @@ app.get('/', (req, res) => {
 })
 
 
+
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
+
 //routes
 app.use('/', employeeRoute)
 

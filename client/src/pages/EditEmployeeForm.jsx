@@ -13,6 +13,7 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
     Address: employee.Address || "",
     DOB: employee.DOB ? employee.DOB.split("T")[0] : "",
     Phone_number: employee.Phone_number || "",
+ 
     Gender:employee.Gender || "",
     Bio:employee.Bio || "",
     Skills:employee.Skills || '',
@@ -20,7 +21,9 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
     Education:employee.Education || '',
     Photo:employee.Photo || "",
     Cv:employee.Cv || ""
-  
+
+    
+
   });
 
   const handleChange = (e) => {
@@ -28,7 +31,7 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
     if (type === "file") {
       setFormData({
         ...formData,
-        [name]: files[0] // Get the file object
+        [name]: files[0], // Get the file object
       });
     } else {
       setFormData({
@@ -37,9 +40,6 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
       });
     }
   };
-  
-
-  console.log(formData);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -68,7 +68,6 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
         );
         updateEmployeeData(response.data);
         setIsEditing(false);
-        toast.success("Company details updated successfully!");
       }
     } catch (error) {
       console.error("Error updating company:", error);
@@ -93,7 +92,6 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
             onChange={handleChange}
             className="w-full p-1 text-black text-sm border rounded"
           />
-
         </div>
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-800">
@@ -106,7 +104,6 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
             onChange={handleChange}
             className="w-full p-1 border text-black text-sm rounded"
           />
-
         </div>
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-800">
@@ -119,11 +116,10 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
             onChange={handleChange}
             className="w-full p-1 border text-black text-sm rounded"
           />
-
         </div>
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-800">
-           Birth date:
+            Birth date:
           </label>
           <input
             type="date"
@@ -144,7 +140,6 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
             onChange={handleChange}
             className="w-full p-1 border text-black text-sm rounded"
           />
-
         </div>
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-800">
@@ -157,7 +152,6 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
             onChange={handleChange}
             className="w-full p-1 border text-black text-sm rounded"
           />
-
         </div>
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-800">
@@ -170,7 +164,6 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
             onChange={handleChange}
             className="w-full p-1 border text-black text-sm rounded"
           />
-
         </div>
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-800">
@@ -183,7 +176,6 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
             onChange={handleChange}
             className="w-full p-1 border text-black text-sm rounded"
           />
-
         </div>
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-800">
@@ -196,7 +188,6 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
             onChange={handleChange}
             className="w-full p-1 border text-black text-sm rounded"
           />
-
         </div>
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-800">
@@ -209,7 +200,6 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
             onChange={handleChange}
             className="w-full p-1 border text-black text-sm rounded"
           />
-
         </div>
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-800">
@@ -218,6 +208,7 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
           <input
             type="file"
             name="Photo"
+
             accept="image/*"
             
             onChange={handleChange}
@@ -234,12 +225,13 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
             name="Cv"
             accept="pdf"
             
+
+
             onChange={handleChange}
             className="w-full p-1 border text-black text-sm rounded"
           />
-
         </div>
-        
+
         <div className="mt-4">
           <button
             type="submit"

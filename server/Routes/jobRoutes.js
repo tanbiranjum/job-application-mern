@@ -8,7 +8,8 @@ const {
     applyForJob,
     getJobsByCategory,
     getJobsByType,
-    searchJobs
+    searchJobs,
+    getCompanyJobs
 } = require('../Controller/jobController.js');
 
 const router = express.Router();
@@ -17,6 +18,7 @@ const router = express.Router();
 router.get('/filter', getJobsByCategory);
 router.get('/type', getJobsByType);
 router.get('/search', searchJobs);
+router.get('/company/:companyId', getCompanyJobs);
 
 // CRUD Routes
 router.get('/', getAllJobs);

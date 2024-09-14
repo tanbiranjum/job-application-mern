@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -10,13 +9,13 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import EditEmployeeForm from "./EditEmployeeForm.jsx";
 import EmpDelete from "./EmpDelete.jsx";
 
-const EmployeeProfile = ({ setIsAuthenticated, setIsEmployee, setUserName }) => {
+const EmployeeProfile = () => {
   const [employee, setEmployee] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
- 
+
 
   useEffect(() => {
     const fetchEmployee = async () => {
@@ -84,13 +83,11 @@ const EmployeeProfile = ({ setIsAuthenticated, setIsEmployee, setUserName }) => 
       >
         <div className="flex items-center mb-6">
           <img
-            src={
-                (employee.Photo) }
-            
+            src={employee.Photo}
             alt="Photo"
             className="w-24 h-24 object-cover  border-4 border-rose-300 shadow-lg"
           />
-          
+
           <div className="ml-4">
             <h1 className="text-4xl text-black font-extrabold">
               {employee.E_Name}
@@ -99,8 +96,6 @@ const EmployeeProfile = ({ setIsAuthenticated, setIsEmployee, setUserName }) => 
           </div>
         </div>
         <div className="space-y-4">
-          
-          
           <div className="flex text-sm items-center">
             <span className="font-semibold text-gray-800 w-1/3 text-base">
               Your Address:
@@ -109,7 +104,7 @@ const EmployeeProfile = ({ setIsAuthenticated, setIsEmployee, setUserName }) => 
               {employee.Address || "N/A"}
             </p>
           </div>
-          
+
           <div className="flex text-sm items-center">
             <span className="font-semibold text-gray-800 text-base w-1/3">
               Phone Number:
@@ -130,17 +125,13 @@ const EmployeeProfile = ({ setIsAuthenticated, setIsEmployee, setUserName }) => 
             <span className="font-semibold text-gray-800 text-base w-1/3">
               DOB:
             </span>
-            <p className="font-medium text-gray-700">
-              {employee.DOB || "N/A"}
-            </p>
+            <p className="font-medium text-gray-700">{employee.DOB || "N/A"}</p>
           </div>
           <div className="flex text-sm items-center">
             <span className="font-semibold text-gray-800 text-base w-1/3">
               Bio:
             </span>
-            <p className="font-medium text-gray-700">
-              {employee.Bio || "N/A"}
-            </p>
+            <p className="font-medium text-gray-700">{employee.Bio || "N/A"}</p>
           </div>
           <div className="flex text-sm items-center">
             <span className="font-semibold text-gray-800 text-base w-1/3">
@@ -166,6 +157,7 @@ const EmployeeProfile = ({ setIsAuthenticated, setIsEmployee, setUserName }) => 
               {employee.Education || "N/A"}
             </p>
           </div>
+<
           <div className="flex text-sm items-center">
             <span className="font-semibold text-gray-800 text-base w-1/3">
               CV:
@@ -188,6 +180,7 @@ const EmployeeProfile = ({ setIsAuthenticated, setIsEmployee, setUserName }) => 
             </p>
           </div>
           
+
         </div>
         <div className="absolute top-8 right-8 flex space-x-4">
           <button
@@ -211,12 +204,7 @@ const EmployeeProfile = ({ setIsAuthenticated, setIsEmployee, setUserName }) => 
           />
         )}
         {showDeleteConfirmation && (
-          <EmpDelete
-            onClose={handleCloseConfirmation}
-            setIsAuthenticated={setIsAuthenticated}
-            setIsEmployee={setIsEmployee}
-            setUserName={setUserName}
-          />
+          <EmpDelete onClose={handleCloseConfirmation} />
         )}
       </div>
     </div>
