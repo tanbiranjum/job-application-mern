@@ -13,17 +13,14 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
     Address: employee.Address || "",
     DOB: employee.DOB ? employee.DOB.split("T")[0] : "",
     Phone_number: employee.Phone_number || "",
- 
-    Gender:employee.Gender || "",
-    Bio:employee.Bio || "",
-    Skills:employee.Skills || '',
-    Experience:employee.Experience || '',
-    Education:employee.Education || '',
-    Photo:employee.Photo || "",
-    Cv:employee.Cv || ""
 
-    
-
+    Gender: employee.Gender || "",
+    Bio: employee.Bio || "",
+    Skills: employee.Skills || "",
+    Experience: employee.Experience || "",
+    Education: employee.Education || "",
+    Photo: employee.Photo || "",
+    Cv: employee.Cv || "",
   });
 
   const handleChange = (e) => {
@@ -31,7 +28,7 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
     if (type === "file") {
       setFormData({
         ...formData,
-        [name]: files[0], // Get the file object
+        [name]: files[0],
       });
     } else {
       setFormData({
@@ -67,6 +64,7 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
           }
         );
         updateEmployeeData(response.data);
+        console.log(response.data);
         setIsEditing(false);
       }
     } catch (error) {
@@ -208,13 +206,10 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
           <input
             type="file"
             name="Photo"
-
             accept="image/*"
-            
             onChange={handleChange}
             className="w-full p-1 border text-black text-sm rounded"
           />
-
         </div>
         <div>
           <label className="block text-sm font-medium mb-1 text-gray-800">
@@ -224,9 +219,6 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
             type="file"
             name="Cv"
             accept="pdf"
-            
-
-
             onChange={handleChange}
             className="w-full p-1 border text-black text-sm rounded"
           />

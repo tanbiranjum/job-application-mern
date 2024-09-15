@@ -1,5 +1,4 @@
 const Job = require("../Model/Job.Model.js");
-const { errorHandler } = require("../Middleware/errorHandler.js")
 
 
 // <-------------- CRUD Controllers ---------------->
@@ -20,7 +19,8 @@ const createJob = async (req, res, next) => {
             skills,
             application_deadline,
             company_Id: req.params.companyId,
-            Category
+            Category,
+            Applicant: []
         });
 
         await newJob.save();
@@ -135,20 +135,20 @@ const getJobsByType = async (req, res) => {
 
 const getCompanyJobs = async (req, res) => {
     try {
-      const { companyId } = req.params;
-  
-      const jobs = await Job.find({ company_Id: companyId });
-  
-      if (jobs.length === 0) {
-        return res.status(200).json([]);
-      }
-  
-      res.json(jobs);
+        const { companyId } = req.params;
+
+        const jobs = await Job.find({ company_Id: companyId });
+
+        if (jobs.length === 0) {
+            return res.status(200).json([]);
+        }
+
+        res.json(jobs);
     } catch (err) {
-      console.error('Error in finding jobs by company:', err);
-      res.status(500).json({ message: err.message });
+        console.error('Error in finding jobs by company:', err);
+        res.status(500).json({ message: err.message });
     }
-  };
+};
 
 // Search Jobs
 const searchJobs = async (req, res) => {
@@ -191,13 +191,15 @@ const searchJobs = async (req, res) => {
 
 const applyForJob = async (req, res) => {
     const { jobId } = req.params;
-    const employeeId = req.user.id;
+    const employeeId = req.id;
 
     try {
         const job = await Job.findById(jobId);
         if (!job) {
             return res.status(404).json({ message: "Job not found!" });
         }
+
+        console.log(job)
 
         // Checking if the employee has already applied
         if (job.Applicant.includes(employeeId)) {
@@ -215,6 +217,50 @@ const applyForJob = async (req, res) => {
     }
 };
 
+// <------------- Company gets their (any) job applicants ------------------->
+
+const getJobApplicants = async (req, res) => {
+    const { jobId } = req.params;
+    console.log(jobId)
+
+    try {
+        const job = await Job.findById(jobId).populate('Applicant');
+
+        if (!job) {
+            return res.status(404).json({ message: "Job not found!" });
+        }
+
+        res.status(200).json(job.Applicant);
+    } catch (error) {
+        console.error("Error fetching job applicants:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+// <--------------- Getting applied jobs by an employee -------------->
+
+const getAppliedJobs = async (req, res) => {
+    const employeeId = req.id;
+
+    console.log("Employee ID:", employeeId);
+
+    try {
+        // Find jobs where the employee is listed as an applicant
+        const jobs = await Job.find({ Applicant: employeeId }).populate('Applicant');
+
+        if (!jobs || jobs.length === 0) {
+            return res.status(404).json({ message: "No applied jobs found for this employee." });
+        }
+
+        res.status(200).json(jobs);
+    } catch (error) {
+        console.error("Error fetching applied jobs:", error);
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
 module.exports = {
     createJob,
     updateJob,
@@ -225,5 +271,7 @@ module.exports = {
     getJobsByCategory,
     getJobsByType,
     searchJobs,
-    getCompanyJobs
+    getCompanyJobs,
+    getJobApplicants,
+    getAppliedJobs
 };

@@ -56,7 +56,6 @@ const jobSchema = mongoose.Schema({
     Category: {
         type: String,
         enum: categories,
-        required: [true, "Category is required"]
     },
     Applicant: [
         {

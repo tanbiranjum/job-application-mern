@@ -19,6 +19,8 @@ import "./index.css";
 import Jobs from "./pages/Jobs.jsx";
 import CompanyJobs from "./pages/CompanyJobs.jsx";
 import PostJob from "./pages/PostJob.jsx";
+import Applicants from "./pages/Applicants.jsx";
+import AppliedJobs from "./pages/AppliedJobs.jsx";
 
 export default function App() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -112,6 +114,22 @@ export default function App() {
             element={
               <PrivateRoute>
                 <PostJob />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/applied-jobs"
+            element={
+              <PrivateRoute>
+                <AppliedJobs />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/applicants/:jobId"
+            element={
+              <PrivateRoute>
+                <Applicants />
               </PrivateRoute>
             }
           />

@@ -18,4 +18,4 @@ const verifyEmployee = (req, res, next) => {
   }
 }
 
-module.exports = verifyEmployee
+module.exports = { verifyEmployee }
