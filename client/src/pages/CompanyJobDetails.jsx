@@ -1,15 +1,14 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import { useAuth } from "../context/AuthContext.jsx";
+import { useNavigate } from "react-router-dom";
 
-const JobDetails = ({ jobId, onClose }) => {
+const CompanyJobDetails = ({ jobId, onClose }) => {
   const [job, setJob] = useState(null);
   const [error, setError] = useState(null);
-  const { isEmployee } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchJobDetails = async () => {
@@ -37,28 +36,9 @@ const JobDetails = ({ jobId, onClose }) => {
     fetchJobDetails();
   }, [jobId]);
 
-  const handleApply = async () => {
-    const token = Cookies.get("access_token");
-    if (token) {
-      try {
-        const response = await axios.post(
-          `http://localhost:5500/api/jobs/apply/${jobId}`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            withCredentials: true,
-          }
-        );
-        console.log(response);
-        toast.success(response.data.message);
-        onClose();
-      } catch (error) {
-        console.error("Error applying for job:", error);
-        toast.error("Failed to apply for the job.");
-      }
-    }
+  const handleApplicantsClick = () => {
+    console.log(jobId);
+    navigate(`/applicants/${jobId}`);
   };
 
   if (error) {
@@ -134,14 +114,12 @@ const JobDetails = ({ jobId, onClose }) => {
           >
             Close
           </button>
-          {isEmployee && (
-            <button
-              className="mt-6 text-black bg-emerald-300 hover:bg-emerald-500 text-center hover:text-white py-2 px-2 rounded-full w-1/3 transition duration-200"
-              onClick={handleApply}
-            >
-              Apply
-            </button>
-          )}
+          <button
+            className="mt-6 text-black bg-emerald-300 hover:bg-emerald-500 text-center hover:text-white py-2 px-2 rounded-full w-1/3 transition duration-200"
+            onClick={handleApplicantsClick}
+          >
+            Applicants
+          </button>
         </div>
       </div>
       <div className="absolute inset-0 bg-black bg-opacity-20"></div>
@@ -149,4 +127,4 @@ const JobDetails = ({ jobId, onClose }) => {
   );
 };
 
-export default JobDetails;
+export default CompanyJobDetails;

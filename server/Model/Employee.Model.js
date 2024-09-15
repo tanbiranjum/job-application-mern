@@ -1,20 +1,20 @@
 const mongoose = require("mongoose");
 
 
-const empolyeeSchema = new mongoose.Schema({
+const employeeSchema = new mongoose.Schema({
 
     E_Name: {
         type: String,
-        require: [true, "Empolyee name must require"]
+        required: [true, "Employee name must require"]
     },
     E_Email: {
         type: String,
-        require: [true, "Empolyee email must require"]
+        required: [true, "Employee email must require"]
     },
     Password:
     {
         type: String,
-        require: [true, "Password must require"]
+        required: [true, "Password must require"]
     },
     Gender: {
         type: String,
@@ -41,14 +41,14 @@ const empolyeeSchema = new mongoose.Schema({
     Education: {
         type: [String]
     },
-    Photo:{
-        type:String,
+    Photo: {
+        type: String,
     },
     Cv: {
-        type: String, 
-        
+        type: String,
+
     }
 
 }, { timestamps: true });
 
-module.exports = mongoose.model('Empolyee', empolyeeSchema);
+module.exports = mongoose.model('Employee', employeeSchema);

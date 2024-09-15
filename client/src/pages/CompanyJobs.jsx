@@ -1,13 +1,13 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import JobDetails from "./JobDetails.jsx";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import EditJobForm from "./EditJobForm";
 import ConfirmJobDelete from "./ConfirmJobDelete";
+import CompanyJobDetails from "./CompanyJobDetails.jsx";
 
 const CompanyJobs = () => {
   const [jobs, setJobs] = useState([]);
@@ -40,6 +40,7 @@ const CompanyJobs = () => {
   }, []);
 
   const handleJobClick = (job) => {
+    console.log(job);
     setSelectedJobId(job._id);
   };
 
@@ -96,11 +97,11 @@ const CompanyJobs = () => {
                 key={job._id}
                 className="bg-[#fffcf2] rounded-lg border-2 shadow-md p-4 hover:shadow-lg hover:scale-105 transition duration-300 relative"
                 style={{
-                  background: `linear-gradient(135deg, #fffcf2 50%, #a7f3d0 50%)`,
+                  background: `linear-gradient(135deg, #fffcf2 50%, #c7d2fe 50%)`,
                 }}
               >
                 <h3
-                  className="text-lg font-semibold mb-2 inline-block hover:underline"
+                  className="text-lg font-semibold mb-2 inline-block cursor-pointer hover:underline"
                   onClick={() => handleJobClick(job)}
                 >
                   {job.title}
@@ -140,7 +141,7 @@ const CompanyJobs = () => {
       </div>
 
       {selectedJobId && (
-        <JobDetails jobId={selectedJobId} onClose={handleCloseDetails} />
+        <CompanyJobDetails jobId={selectedJobId} onClose={handleCloseDetails} />
       )}
 
       {isEditing && (

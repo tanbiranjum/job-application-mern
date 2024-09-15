@@ -4,7 +4,6 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
-
 import { FaEdit, FaTrash } from "react-icons/fa";
 import EditEmployeeForm from "./EditEmployeeForm.jsx";
 import EmpDelete from "./EmpDelete.jsx";
@@ -15,7 +14,6 @@ const EmployeeProfile = () => {
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-
 
   useEffect(() => {
     const fetchEmployee = async () => {
@@ -157,7 +155,6 @@ const EmployeeProfile = () => {
               {employee.Education || "N/A"}
             </p>
           </div>
-<
           <div className="flex text-sm items-center">
             <span className="font-semibold text-gray-800 text-base w-1/3">
               CV:
@@ -165,22 +162,20 @@ const EmployeeProfile = () => {
             <p className="font-medium text-gray-700">
               {/* {employee.Cv || "N/A"} */}
               {employee.Cv ? (
-      <a
-        href={employee.Cv}
-        target="_blank"
-        rel="noopener noreferrer"
-        download
-        className="bg-red-600 text-white px-2 py-1 rounded hover:bg-blue-600   "
-      >
-        Download CV
-      </a>
-    ) : (
-      <p>No CV uploaded</p>
-    )}
+                <a
+                  href={employee.Cv}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download
+                  className="bg-rose-500 text-white px-2 py-1 rounded hover:bg-emerald-500   "
+                >
+                  Download CV
+                </a>
+              ) : (
+                <p>No CV uploaded</p>
+              )}
             </p>
           </div>
-          
-
         </div>
         <div className="absolute top-8 right-8 flex space-x-4">
           <button

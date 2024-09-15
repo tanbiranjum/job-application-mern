@@ -25,6 +25,11 @@ const Navbar = ({ dropdownOpen, toggleDropdown, closeDropdown }) => {
     closeDropdown();
   };
 
+  const handleAppliedJobsClick = () => {
+    navigate(`/applied-jobs`);
+    closeDropdown();
+  };
+
   const handleCompanyJobsClick = () => {
     navigate(`/company-jobs`);
     closeDropdown();
@@ -110,6 +115,14 @@ const Navbar = ({ dropdownOpen, toggleDropdown, closeDropdown }) => {
                         Post A Job
                       </li>
                     </>
+                  )}
+                  {!isCompany && (
+                    <li
+                      className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={handleAppliedJobsClick}
+                    >
+                      Applied Jobs
+                    </li>
                   )}
                   <li
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
