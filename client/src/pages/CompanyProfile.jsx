@@ -34,6 +34,7 @@ const CompanyProfile = () => {
             }
           );
           setCompany(response.data);
+          console.log(response);
         } else {
           throw new Error("No token found");
         }
@@ -75,14 +76,14 @@ const CompanyProfile = () => {
       style={{ minHeight: "calc(100vh - 60px)" }}
     >
       <div
-        className="bg-[#fffcf2] p-10 rounded-lg shadow-xl max-w-4xl w-2/3 mx-4 relative"
+        className="bg-white p-10 rounded-lg shadow-xl max-w-4xl w-2/3 mx-4 relative"
         style={{
-          background: `linear-gradient(135deg, #fffcf2 50%, #fecaca 50%)`,
+          background: `linear-gradient(135deg, white 50%, #fecaca 50%)`,
         }}
       >
         <div className="flex items-center mb-6">
           <img
-            src={companyLogo}
+            src={`http://localhost:5500/${company.logo}`}
             alt="Company Logo"
             className="w-24 h-24 object-cover rounded-full border-4 border-rose-300 shadow-lg"
           />

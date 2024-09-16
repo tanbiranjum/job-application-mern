@@ -12,7 +12,7 @@ const Companies = () => {
   const navigate = useNavigate();
   const [companies, setCompanies] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [companiesPerPage] = useState(15);
+  const [companiesPerPage] = useState(10);
   const [searchResults, setSearchResults] = useState([]);
   const [filteredCompanies, setFilteredCompanies] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -166,13 +166,25 @@ const Companies = () => {
             {currentCompanies.map((company) => (
               <div
                 key={company._id}
-                className="bg-[#fffcf2] rounded-lg border-2 shadow-md p-2 hover:shadow-lg hover:scale-105 transition duration-300"
+                className="bg-white rounded-lg border-2 shadow-md p-2 hover:shadow-lg hover:scale-105 transition duration-300"
                 style={{
-                  background: `linear-gradient(135deg, #fffcf2 50%, #fecaca 50%)`,
+                  background: `linear-gradient(135deg, white 50%, #fecaca 50%)`,
+                  height: "180px",
                 }}
                 onClick={() => handleCompanyClick(company)}
               >
-                <h3 className="text-sm font-semibold mb-1">{company.C_Name}</h3>
+                <div className="flex justify-between text-center items-center">
+                  <h3 className="text-sm font-semibold mb-1">
+                    {company.C_Name}
+                  </h3>
+                  {company.logo && (
+                    <img
+                      src={`http://localhost:5500/${company.logo}`}
+                      alt={`${company.C_Name} Logo`}
+                      className="w-10 h-10 object-cover rounded-full relative top-0 right-0 border-2 border-white shadow-md"
+                    />
+                  )}
+                </div>
                 <p className="text-sm text-gray-600 mb-1">
                   {company.description
                     ? company.description.slice(0, 30) + "..."

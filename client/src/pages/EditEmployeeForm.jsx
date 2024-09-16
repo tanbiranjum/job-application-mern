@@ -74,7 +74,7 @@ const EditEmployeeForm = ({ employee, setIsEditing, updateEmployeeData }) => {
   };
 
   return (
-    <div className="mt-8 p-6 bg-[#fffcf2] text-white rounded-lg shadow-md">
+    <div className="mt-8 p-6 bg-white text-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-4 text-center text-black">
         Edit Employee Details
       </h2>

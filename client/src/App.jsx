@@ -21,6 +21,7 @@ import CompanyJobs from "./pages/CompanyJobs.jsx";
 import PostJob from "./pages/PostJob.jsx";
 import Applicants from "./pages/Applicants.jsx";
 import AppliedJobs from "./pages/AppliedJobs.jsx";
+import Footer from "./components/Footer.jsx";
 
 export default function App() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -36,104 +37,115 @@ export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Navbar
-          dropdownOpen={dropdownOpen}
-          toggleDropdown={toggleDropdown}
-          closeDropdown={closeDropdown}
-        />
-        <ToastContainer
-          position="bottom-center"
-          autoClose={2000}
-          hideProgressBar={true}
-          className="toast-container"
-          toastClassName="Toastify__toast"
-        />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route
-            path="/companies"
-            element={
-              <PrivateRoute>
-                <Companies />
-              </PrivateRoute>
-            }
+        <div className="flex flex-col min-h-screen">
+          <Navbar
+            dropdownOpen={dropdownOpen}
+            toggleDropdown={toggleDropdown}
+            closeDropdown={closeDropdown}
           />
-          <Route
-            path="/jobs"
-            element={
-              <PrivateRoute>
-                <Jobs />
-              </PrivateRoute>
-            }
+          <ToastContainer
+            position="bottom-center"
+            autoClose={2000}
+            hideProgressBar={true}
+            className="toast-container"
+            toastClassName="Toastify__toast"
           />
-          <Route path="/company-register" element={<CompanyRegister />} />
-          <Route path="/employee-register" element={<EmployeeRegister />} />
-
-          <Route
-            path="/company-login"
-            element={<CompanyLogin closeDropdown={closeDropdown} />}
-          />
-          <Route
-            path="/employee-login"
-            element={<EmployeeLogin closeDropdown={closeDropdown} />}
-          />
-          <Route
-            path="/company-profile"
-            element={
-              <PrivateRoute>
-                <CompanyProfile />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/employee-profile"
-            element={
-              <PrivateRoute>
-                <EmployeeProfile />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/companies/:companyId"
-            element={
-              <PrivateRoute>
-                <CompanyDetails />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/company-jobs"
-            element={
-              <PrivateRoute>
-                <CompanyJobs />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/post-job"
-            element={
-              <PrivateRoute>
-                <PostJob />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/applied-jobs"
-            element={
-              <PrivateRoute>
-                <AppliedJobs />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/applicants/:jobId"
-            element={
-              <PrivateRoute>
-                <Applicants />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
+          <div className="flex-grow">
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <PrivateRoute>
+                    <Home />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/companies"
+                element={
+                  <PrivateRoute>
+                    <Companies />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/jobs"
+                element={
+                  <PrivateRoute>
+                    <Jobs />
+                  </PrivateRoute>
+                }
+              />
+              <Route path="/company-register" element={<CompanyRegister />} />
+              <Route path="/employee-register" element={<EmployeeRegister />} />
+              <Route
+                path="/company-login"
+                element={<CompanyLogin closeDropdown={closeDropdown} />}
+              />
+              <Route
+                path="/employee-login"
+                element={<EmployeeLogin closeDropdown={closeDropdown} />}
+              />
+              <Route
+                path="/company-profile"
+                element={
+                  <PrivateRoute>
+                    <CompanyProfile />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/employee-profile"
+                element={
+                  <PrivateRoute>
+                    <EmployeeProfile />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/companies/:companyId"
+                element={
+                  <PrivateRoute>
+                    <CompanyDetails />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/company-jobs"
+                element={
+                  <PrivateRoute>
+                    <CompanyJobs />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/post-job"
+                element={
+                  <PrivateRoute>
+                    <PostJob />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/applied-jobs"
+                element={
+                  <PrivateRoute>
+                    <AppliedJobs />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/applicants/:jobId"
+                element={
+                  <PrivateRoute>
+                    <Applicants />
+                  </PrivateRoute>
+                }
+              />
+            </Routes>
+          </div>
+          <Footer /> 
+        </div>
       </BrowserRouter>
     </AuthProvider>
   );

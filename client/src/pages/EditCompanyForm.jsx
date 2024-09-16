@@ -15,12 +15,20 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
     Phone_number: company.Phone_number || "",
     Category: company.Category || "",
     description: company.description || "",
+    logo: company.logo || null,
   });
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleFileChange = (e) => {
+    setFormData({
+      ...formData,
+      logo: e.target.files[0],
     });
   };
 
@@ -34,12 +42,18 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
         const decodedToken = jwtDecode(token);
         const companyId = decodedToken.id;
 
+        const formDataToSend = new FormData();
+        for (const key in formData) {
+          formDataToSend.append(key, formData[key]);
+        }
+
         const response = await axios.put(
           `http://localhost:5500/api/company/companies/${companyId}`,
-          formData,
+          formDataToSend,
           {
             headers: {
               Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
             },
             withCredentials: true,
           }
@@ -54,7 +68,7 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
   };
 
   return (
-    <div className="mt-8 p-6 bg-[#fffcf2] text-white rounded-lg shadow-md">
+    <div className="mt-8 p-6 bg-white text-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-4 text-center text-black">
         Edit Company Details
       </h2>
@@ -151,6 +165,18 @@ const EditCompanyForm = ({ company, setIsEditing, updateCompanyData }) => {
               </option>
             ))}
           </select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1 text-gray-800">
+            Company Logo
+          </label>
+          <input
+            type="file"
+            name="logo"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="w-full p-1 border text-black text-sm rounded"
+          />
         </div>
         <div className="mt-4">
           <button

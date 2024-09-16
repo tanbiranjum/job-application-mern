@@ -67,7 +67,7 @@ const EmpDelete = ({ onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center">
-      <div className="bg-[#fffcf2] text-black text-sm p-6 flex flex-col justify-center items-center rounded-lg shadow-lg w-1/3">
+      <div className="bg-white text-black text-sm p-6 flex flex-col justify-center items-center rounded-lg shadow-lg w-1/3">
         <h3 className="text-lg font-bold mb-4">
           Are you sure you want to delete your account?
         </h3>
