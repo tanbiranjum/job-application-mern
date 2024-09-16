@@ -63,7 +63,7 @@ Utilized JWT, Cookies, axios for seamless api management. Used Postman for API t
     **Frontend:**
     1. Open a new terminal and navigate to the frontend directory:
         ```bash
-        cd ../frontend
+        cd ../client
         ```
     2. Start the frontend development server:
         ```bash
