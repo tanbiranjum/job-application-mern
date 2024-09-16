@@ -63,9 +63,9 @@ const Applicants = () => {
         {applicants.map((applicant) => (
           <div
             key={applicant._id}
-            className="bg-[#fffcf2] rounded-lg text-sm border-2 shadow-md p-4 hover:shadow-lg hover:scale-105 transition duration-300"
+            className="bg-white rounded-lg text-sm border-2 shadow-md p-4 hover:shadow-lg hover:scale-105 transition duration-300"
             style={{
-              background: `linear-gradient(135deg, #fffcf2 50%, #fed7aa 50%)`,
+              background: `linear-gradient(135deg, white 50%, #fed7aa 50%)`,
             }}
           >
             <h3 className="text-lg font-semibold">{applicant.E_Name}</h3>

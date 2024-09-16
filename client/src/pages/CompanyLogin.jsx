@@ -53,7 +53,7 @@ const CompanyLogin = ({ closeDropdown }) => {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="p-6 max-w-sm mx-auto bg-[#fffcf2] rounded-lg shadow-lg">
+      <div className="p-6 max-w-sm mx-auto bg-white rounded-lg shadow-lg">
         <h1 className="text-center text-xl font-semibold mb-6">
           Company Login
         </h1>

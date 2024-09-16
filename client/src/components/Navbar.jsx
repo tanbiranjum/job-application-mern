@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
@@ -8,6 +8,25 @@ import { useAuth } from "../context/AuthContext";
 const Navbar = ({ dropdownOpen, toggleDropdown, closeDropdown }) => {
   const { isAuthenticated, userName, isCompany, logout } = useAuth();
   const navigate = useNavigate();
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownOpen &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        closeDropdown();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dropdownOpen, closeDropdown]);
 
   const handleLogout = () => {
     logout();
@@ -41,10 +60,10 @@ const Navbar = ({ dropdownOpen, toggleDropdown, closeDropdown }) => {
   };
 
   return (
-    <div className="bg-gradient-to-r from-rose-300 to-rose-300 via-red-300 relative z-50">
+    <div className="bg-gray-200 border-2 relative z-50">
       <div className="flex justify-between items-center mx-auto max-w-6xl px-8 py-4">
         <Link to="/">
-          <h1 className="font-bold">Job Seeker</h1>
+          <h1 className="font-bold text-lg">Job Seeker</h1>
         </Link>
 
         <ul className="flex gap-4">
@@ -68,7 +87,10 @@ const Navbar = ({ dropdownOpen, toggleDropdown, closeDropdown }) => {
                 Login
               </button>
               {dropdownOpen && (
-                <ul className="absolute bg-[#fffcf2] text-xs shadow-md rounded-md py-2 transition-transform transform translate-y-2 origin-top-right z-50">
+                <ul
+                  className="absolute bg-white text-xs shadow-md rounded-md py-2 transition-transform transform translate-y-2 origin-top-right z-50"
+                  ref={dropdownRef}
+                >
                   <li
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     onClick={() => navigate("/employee-login")}
@@ -93,7 +115,10 @@ const Navbar = ({ dropdownOpen, toggleDropdown, closeDropdown }) => {
                 {userName}
               </button>
               {dropdownOpen && (
-                <ul className="absolute bg-white shadow-md mt-2 text-xs rounded-md py-2 transition-transform transform translate-y-2 origin-top-right">
+                <ul
+                  className="absolute bg-white shadow-md mt-2 text-xs rounded-md py-2 transition-transform transform translate-y-2 origin-top-right"
+                  ref={dropdownRef}
+                >
                   <li
                     className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                     onClick={handleProfileClick}

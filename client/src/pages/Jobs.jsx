@@ -12,7 +12,7 @@ const Jobs = () => {
   const navigate = useNavigate();
   const [jobs, setJobs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [jobsPerPage] = useState(15);
+  const [jobsPerPage] = useState(10);
   const [searchResults, setSearchResults] = useState([]);
   const [filteredJobs, setFilteredJobs] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -161,7 +161,7 @@ const Jobs = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="relative">
+    <div className="flex flex-col flex-grow">
       <div className="flex justify-between items-center p-4 space-x-4">
         <h2 className="text-lg font-bold items-center text-center p-2">
           Browse Jobs
@@ -193,9 +193,10 @@ const Jobs = () => {
             {currentJobs.map((job) => (
               <div
                 key={job._id}
-                className="bg-[#fffcf2] rounded-lg border-2 shadow-md p-2 hover:shadow-lg hover:scale-105 transition duration-300"
+                className="bg-white rounded-lg border-2 shadow-md p-2 hover:shadow-lg hover:scale-105 transition duration-300"
                 style={{
-                  background: `linear-gradient(135deg, #fffcf2 50%, #cbd5e1 50%)`,
+                  background: `linear-gradient(135deg, white 50%, #cbd5e1 50%)`,
+                  height: "180px",
                 }}
                 onClick={() => handleJobClick(job)}
               >

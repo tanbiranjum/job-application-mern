@@ -30,6 +30,9 @@ const companySchema = new mongoose.Schema({
         type: String,
         enum: categories,
         required: [true, "Category is required"]
+    },
+    logo: {
+        type: String
     }
 }, { timestamps: true });
 

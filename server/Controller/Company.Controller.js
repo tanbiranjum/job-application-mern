@@ -2,6 +2,8 @@ const Company = require("../Model/Company.Model.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { errorHandler } = require("../Middleware/errorHandler.js")
+const path = require('path');
+
 
 
 
@@ -121,29 +123,39 @@ const getCompanyById = async (req, res) => {
 
 const updateCompany = async (req, res) => {
     try {
-        const company = await Company.findById(req.params.companyId);
-        if (!company) {
-            return res.status(404).json({ message: 'Company not found!!' });
+        const { companyId } = req.params;
+        if (!companyId) {
+            return res.status(400).send({ message: "Company ID is required" });
         }
 
-        company.C_Name = req.body.C_Name || company.C_Name;
-        company.C_Email = req.body.C_Email || company.C_Email;
-        company.Address = req.body.Address || company.Address;
-        company.DOB = req.body.DOB || company.DOB;
-        company.Phone_number = req.body.Phone_number || company.Phone_number;
-        company.description = req.body.description || company.description;
-        company.Category = req.body.Category || company.Category;
+        const { C_Name, C_Email, Password, Address, Phone_number, description, Category } = req.body;
 
-        if (req.body.Password) {
-            company.Password = await bcrypt.hash(req.body.Password, 10);
+        let updateData = { C_Name, C_Email, Address, Phone_number, description, Category };
+
+        if (Password) {
+            if (Password.length < 6) {
+                return res.status(400).send({ message: "Password should be at least 6 characters long" });
+            }
+            const hashedPassword = await bcrypt.hash(Password, 10);
+            updateData.Password = hashedPassword;
         }
 
+        // Handling file uploads
+        if (req.file) {
+            const logoPath = path.join('public/logos', req.file.filename);
+            updateData.logo = logoPath;
+        }
 
-        const updatedCompany = await company.save();
-        res.json(updatedCompany);
-    } catch (err) {
-        console.error('Error in updating company:', err);
-        res.status(500).json({ message: err.message });
+        const updatedCompany = await Company.findByIdAndUpdate(companyId, updateData, { new: true });
+
+        if (!updatedCompany) {
+            return res.status(404).send({ message: "Company not found" });
+        }
+
+        res.status(200).json(updatedCompany);
+    } catch (error) {
+        console.error('Error in updating company:', error);
+        res.status(500).send({ message: "Error updating company" });
     }
 };
 

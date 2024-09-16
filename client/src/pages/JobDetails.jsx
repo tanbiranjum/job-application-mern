@@ -89,7 +89,7 @@ const JobDetails = ({ jobId, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-10 mt-16 rounded-lg shadow-xl w-full max-w-lg relative z-10">
+      <div className="bg-white p-6 mt-10 rounded-lg shadow-xl w-full max-w-lg relative z-50">
         <h1 className="text-2xl text-center font-bold text-gray-900 mb-4">
           {job.title}
         </h1>

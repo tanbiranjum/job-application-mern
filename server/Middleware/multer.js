@@ -11,6 +11,8 @@ const storage = multer.diskStorage({
         cb(null, 'public/photos'); //save
       } else if (file.fieldname === 'Cv') {
         cb(null, 'public/cvs'); //save
+      }else if (file.fieldname === 'logo') { 
+        cb(null, 'public/logos'); //save
       }
     },
     filename: function (req, file, cb) {

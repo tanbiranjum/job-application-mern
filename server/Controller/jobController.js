@@ -246,7 +246,6 @@ const getAppliedJobs = async (req, res) => {
     console.log("Employee ID:", employeeId);
 
     try {
-        // Find jobs where the employee is listed as an applicant
         const jobs = await Job.find({ Applicant: employeeId }).populate('Applicant');
 
         if (!jobs || jobs.length === 0) {

@@ -25,7 +25,6 @@ const AppliedJobs = () => {
               withCredentials: true,
             }
           );
-          console.log("Fetched applied jobs:", response.data);
           setAppliedJobs(response.data);
         } catch (error) {
           console.error("Error fetching applied jobs:", error);
@@ -49,15 +48,15 @@ const AppliedJobs = () => {
   }
 
   return (
-    <div className="relative mx-4 p-4">
+    <div className="relative mx-4 p-12">
       <h2 className="text-2xl font-bold text-center mb-4">Your Applied Jobs</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
         {appliedJobs.map((job) => (
           <div
             key={job._id}
-            className="bg-[#fffcf2] rounded-lg border-2 shadow-md p-4 hover:shadow-lg hover:scale-105 transition duration-300"
+            className="bg-white rounded-lg border-2 shadow-md p-4 hover:shadow-lg hover:scale-105 transition duration-300"
             style={{
-              background: `linear-gradient(135deg, #fffcf2 50%, #a7f3d0 50%)`,
+              background: `linear-gradient(135deg, white 50%, #a7f3d0 50%)`,
             }}
           >
             <h3 className="text-lg font-semibold">{job.title}</h3>

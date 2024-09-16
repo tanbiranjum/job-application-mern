@@ -69,14 +69,11 @@ const EmployeeProfile = () => {
   if (error) return <div className="text-center text-red-500">{error}</div>;
 
   return (
-    <div
-      className="flex items-center justify-center bg-cover bg-center"
-      style={{ minHeight: "calc(100vh - 60px)" }}
-    >
+    <div className="flex items-center justify-center bg-cover bg-center m-6">
       <div
-        className="bg-[#fffcf2] p-10 rounded-lg shadow-xl max-w-4xl w-2/3 mx-4 relative"
+        className="bg-white p-10 rounded-lg shadow-xl max-w-3xl w-2/3 relative"
         style={{
-          background: `linear-gradient(135deg, #fffcf2 50%, #fecaca 50%)`,
+          background: `linear-gradient(135deg, white 50%, #fecaca 50%)`,
         }}
       >
         <div className="flex items-center mb-6">

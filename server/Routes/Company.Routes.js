@@ -1,6 +1,7 @@
 const express = require('express');
 const { register, login, logout, verifyPassword, getAllCompanies, getCompanyById, updateCompany, deleteCompany, getCompaniesByCategory, searchCompanies } = require("../Controller/Company.Controller.js");
 const { verifyToken } = require("../Middleware/verifyCompany.js")
+const upload = require('../Middleware/multer')
 
 const router = express.Router();
 
@@ -20,7 +21,7 @@ router.get('/companies/search', searchCompanies);
 // CRUD routes
 router.get("/companies", getAllCompanies);
 router.get('/companies/:companyId', verifyToken, getCompanyById);
-router.put('/companies/:companyId', verifyToken, updateCompany);
+router.put('/companies/:companyId', verifyToken, upload.single('logo'), updateCompany);
 router.delete('/companies/:companyId', verifyToken, deleteCompany);
 
 

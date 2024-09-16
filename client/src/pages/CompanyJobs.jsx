@@ -78,14 +78,14 @@ const CompanyJobs = () => {
   };
 
   return (
-    <div className="relative">
-      <div className="flex justify-between items-center p-4 space-x-4">
+    <div className="flex flex-col flex-grow p-8">
+      <div className="flex justify-between items-center mb-4 space-x-4">
         <h2 className="text-lg font-bold items-center text-center p-2">
           Company Jobs
         </h2>
       </div>
 
-      <div className="mx-4 grid grid-cols-1 min-h-[50vh] items-center justify-items-center">
+      <div className="mx-4 grid grid-cols-1 min-h-[50vh] items-center justify-items-center mb-8">
         {jobs.length === 0 ? (
           <div className="text-center text-gray-500 col-span-1">
             No jobs found for this company.
@@ -95,9 +95,10 @@ const CompanyJobs = () => {
             {jobs.map((job) => (
               <div
                 key={job._id}
-                className="bg-[#fffcf2] rounded-lg border-2 shadow-md p-4 hover:shadow-lg hover:scale-105 transition duration-300 relative"
+                className="bg-white rounded-lg border-2 shadow-md p-4 hover:shadow-lg hover:scale-105 transition duration-300 relative"
                 style={{
-                  background: `linear-gradient(135deg, #fffcf2 50%, #c7d2fe 50%)`,
+                  background: `linear-gradient(135deg, white 50%, #c7d2fe 50%)`,
+                  height: "180px",
                 }}
               >
                 <h3
@@ -122,13 +123,13 @@ const CompanyJobs = () => {
 
                 <div className="absolute top-2 right-2 flex space-x-2">
                   <button
-                    className="text-blue-500 hover:text-blue-700"
+                    className="text-gray-500 hover:text-blue-700"
                     onClick={() => handleEditJob(job)}
                   >
                     <FaEdit size={20} />
                   </button>
                   <button
-                    className="text-red-500 hover:text-red-700"
+                    className="text-gray-500 hover:text-red-700"
                     onClick={() => handleDeleteJob(job)}
                   >
                     <FaTrash size={20} />
